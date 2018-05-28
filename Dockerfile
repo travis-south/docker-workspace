@@ -1,0 +1,110 @@
+FROM travissouth/baseimage
+
+USER root
+
+# Add the "PHP 7" ppa
+RUN install_clean -y software-properties-common && \
+    add-apt-repository -y ppa:ondrej/php
+
+#
+#--------------------------------------------------------------------------
+# Software's Installation
+#--------------------------------------------------------------------------
+#
+
+# Install "PHP Extentions", "libraries", "Software's"
+RUN install_clean -y --allow-downgrades --allow-remove-essential \
+        --allow-change-held-packages \
+        php7.2-cli \
+        php7.2-common \
+        php7.2-curl \
+        php7.2-intl \
+        php7.2-json \
+        php7.2-xml \
+        php7.2-mbstring \
+        php7.2-mysql \
+        php7.2-pgsql \
+        php7.2-sqlite \
+        php7.2-sqlite3 \
+        php7.2-zip \
+        php7.2-bcmath \
+        php7.2-memcached \
+        php7.2-gd \
+        php7.2-dev \
+        pkg-config \
+        libcurl4-openssl-dev \
+        libedit-dev \
+        libssl-dev \
+        libxml2-dev \
+        xz-utils \
+        libsqlite3-dev \
+        sqlite3 \
+        git \
+        curl \
+        vim \
+        nano \
+        postgresql-client \
+        htop \
+        libmcrypt-dev \
+        openssh-client \
+        libxml2-dev \
+        libpng-dev \
+        g++ \
+        make \
+        autoconf
+
+#####################################
+# Composer:
+#####################################
+
+# Install composer and add its bin to the PATH.
+RUN curl -s http://getcomposer.org/installer | php && \
+    echo "export PATH=${PATH}:/var/www/vendor/bin:/usr/local/bin:/home/daker/.composer/vendor/bin" >> ~/.bashrc && \
+    mv composer.phar /usr/local/bin/composer && \
+    chmod +x /usr/local/bin/composer
+
+# Source the bash
+RUN . ~/.bashrc
+ENV PATH ${PATH}:/var/www/vendor/bin:/usr/local/bin:/home/daker/.composer/vendor/bin
+
+USER daker
+
+RUN echo "export PATH=${PATH}:/var/www/vendor/bin:/usr/local/bin:/home/daker/.composer/vendor/bin" >> ~/.bashrc
+RUN . ~/.bashrc
+ENV PATH ${PATH}:/var/www/vendor/bin:/usr/local/bin:/home/daker/.composer/vendor/bin
+RUN mkdir -p ~/.composer
+RUN composer global require hirak/prestissimo && composer --version
+
+# Install PHPQATools
+RUN composer global require travis-south/phpqatools:^3.0 \
+    behat/mink-extension \
+    behat/mink-goutte-driver \
+    behat/mink-selenium2-driver \
+    behat/mink-zombie-driver \
+    drupal/coder \
+    endouble/symfony3-custom-coding-standard \
+    rregeer/phpunit-coverage-check
+RUN phpcs --config-set installed_paths \
+    $HOME/.composer/vendor/endouble/symfony3-custom-coding-standard,$HOME/.composer/vendor/drupal/coder/coder_sniffer
+
+# Install Symfony installer
+
+# Install Drush
+
+# Install Laravel artisan
+
+# Install NodeJS
+
+# Install Yarn
+
+# Install Python
+
+# Install Ansible
+
+# Install AWS CLI
+
+# Install Wodby CLI
+
+# Clean up APT when done.
+USER root
+RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
