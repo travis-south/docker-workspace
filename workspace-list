@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+
+set -e
+
+red='\033[0;31m'
+green='\033[0;32m'
+yellow='\033[0;33m'
+neutral='\033[0m'
+
+printf ${neutral}"Workspace Tools\n"
+printf ${neutral}"\n"
+printf ${yellow}"Usage:\n"
+printf ${neutral}"  docker run --rm -ti -v \$PWD:/var/www/app --env PGID=\$(id -g) --env PUID=\$(id -u) travissouth/workspace command\n"
+printf ${neutral}"\n"
+printf ${yellow}"Available commands:\n"
+printf ${green}"  composer\n"
+printf ${green}"  phpunit\n"
+printf ${green}"  behat\n"
+printf ${green}"  coverage-check\n"
+printf ${green}"  pdepend\n"
+printf ${green}"  phpcbf\n"
+printf ${green}"  phpcpd\n"
+printf ${green}"  phpcs\n"
+printf ${green}"  php-cs-fixer\n"
+printf ${green}"  phploc\n"
+printf ${green}"  phpmd\n"
+printf ${green}"  security-checker\n"
+printf ${green}"  drush\n"

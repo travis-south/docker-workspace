@@ -3,7 +3,7 @@ FROM travissouth/baseimage
 USER root
 
 # Add the "PHP 7" ppa
-RUN install_clean -y software-properties-common && \
+RUN RUN apt-get update -y && apt-get upgrade -y && install_clean -y software-properties-common && \
     add-apt-repository -y ppa:ondrej/php
 
 #
@@ -76,7 +76,15 @@ RUN mkdir -p ~/.composer
 RUN composer global require hirak/prestissimo && composer --version
 
 # Install PHPQATools
-RUN composer global require travis-south/phpqatools:^3.0 \
+RUN composer global require symfony/config:^3 \
+    symfony/console:^3 \
+    symfony/event-dispatcher:^3 \
+    symfony/finder:^3 \
+    symfony/process:^3 \
+    symfony/var-dumper:^3 \
+    symfony/yaml:^3 \
+    symfony/filesystem:^3 \
+    travis-south/phpqatools:^3.0 \
     behat/mink-extension \
     behat/mink-goutte-driver \
     behat/mink-selenium2-driver \
@@ -87,9 +95,9 @@ RUN composer global require travis-south/phpqatools:^3.0 \
 RUN phpcs --config-set installed_paths \
     $HOME/.composer/vendor/endouble/symfony3-custom-coding-standard,$HOME/.composer/vendor/drupal/coder/coder_sniffer
 
-# Install Symfony installer
-
 # Install Drush
+USER daker
+RUN composer global require drush/drush:^9.0 && drush --version
 
 # Install Laravel artisan
 
@@ -104,6 +112,12 @@ RUN phpcs --config-set installed_paths \
 # Install AWS CLI
 
 # Install Wodby CLI
+
+###
+USER root
+COPY workspace-list /usr/local/bin/workspace-list
+RUN chmod +x /usr/local/bin/workspace-list
+CMD ["/usr/local/bin/workspace-list"]
 
 # Clean up APT when done.
 USER root
