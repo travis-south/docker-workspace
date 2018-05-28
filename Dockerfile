@@ -3,7 +3,7 @@ FROM travissouth/baseimage
 USER root
 
 # Add the "PHP 7" ppa
-RUN apt-get update -y && apt-get upgrade -y && install_clean -y software-properties-common && \
+RUN install_clean -y software-properties-common && \
     add-apt-repository -y ppa:ondrej/php
 
 #
@@ -121,4 +121,4 @@ CMD ["/usr/local/bin/workspace-list"]
 
 # Clean up APT when done.
 USER root
-RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+RUN apt-get update -y && apt-get upgrade -y && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
