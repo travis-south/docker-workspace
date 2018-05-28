@@ -3,7 +3,7 @@ FROM travissouth/baseimage
 USER root
 
 # Add the "PHP 7" ppa
-RUN RUN apt-get update -y && apt-get upgrade -y && install_clean -y software-properties-common && \
+RUN apt-get update -y && apt-get upgrade -y && install_clean -y software-properties-common && \
     add-apt-repository -y ppa:ondrej/php
 
 #
