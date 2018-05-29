@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+docker build -t test-workspace .
 docker run --rm -ti \
     -v $(pwd):/var/www/app \
     -v $HOME/.ssh:/home/daker/.ssh:ro \

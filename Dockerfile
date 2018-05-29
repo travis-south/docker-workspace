@@ -69,9 +69,12 @@ ENV PATH ${PATH}:/var/www/vendor/bin:/usr/local/bin:/home/daker/.composer/vendor
 
 USER daker
 
+RUN mkdir -p /home/daker/.docker-workspace/.composer/cache
 RUN echo "export PATH=${PATH}:/var/www/vendor/bin:/usr/local/bin:/home/daker/.composer/vendor/bin" >> ~/.bashrc
+RUN echo "export COMPOSER_CACHE_DIR=/home/daker/.docker-workspace/.composer/cache" >> ~/.bashrc
 RUN . ~/.bashrc
 ENV PATH ${PATH}:/var/www/vendor/bin:/usr/local/bin:/home/daker/.composer/vendor/bin
+ENV COMPOSER_CACHE_DIR /home/daker/.docker-workspace/.composer/cache
 RUN mkdir -p ~/.composer
 RUN composer global require hirak/prestissimo && composer --version
 
@@ -109,6 +112,9 @@ RUN curl -sL https://deb.nodesource.com/setup_8.x | bash - && \
     install_clean nodejs && \
     nodejs --version
 USER daker
+RUN echo "export NPM_CONFIG_USERCONFIG=/home/daker/.docker-workspace/.npmrc" >> ~/.bashrc
+ENV NPM_CONFIG_USERCONFIG /home/daker/.docker-workspace/.npmrc
+RUN echo "cache=/home/daker/.docker-workspace/npm-cache" >> ~/.docker-workspace/.npmrc
 RUN nodejs --version && \
     npm --version
 
@@ -119,7 +125,10 @@ RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && \
     install_clean yarn && \
     yarn --version
 USER daker
-RUN yarn --version
+RUN yarn --version && \
+    echo "export YARN_CACHE_FOLDER=/home/daker/.docker-workspace/.yarn/cache" >> ~/.bashrc && \
+    . ~/.bashrc
+ENV YARN_CACHE_FOLDER /home/daker/.docker-workspace/.yarn/cache
 
 # Install Python/PIP
 USER root
@@ -142,6 +151,10 @@ USER daker
 RUN pip install awscli --upgrade --user
 ENV PATH ${PATH}:/home/daker/.local/bin
 RUN echo "export PATH=${PATH}:/home/daker/.local/bin" >> ~/.bashrc
+RUN echo "export AWS_CONFIG_FILE=/home/daker/.docker-workspace/.aws/config" >> ~/.bashrc
+RUN echo "export AWS_SHARED_CREDENTIALS_FILE=/home/daker/.docker-workspace/.aws/credentials" >> ~/.bashrc
+ENV AWS_CONFIG_FILE /home/daker/.docker-workspace/.aws/config
+ENV AWS_SHARED_CREDENTIALS_FILE /home/daker/.docker-workspace/.aws/credentials
 RUN . ~/.bashrc && \
     aws --version
 
