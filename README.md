@@ -10,9 +10,24 @@ Image for my dev tools
  - Yarn
  - Python/PIP
  - Ansible
+ - AWS CLI
+ - Wodby CLI
 
 ## Usage
+
 To run composer:
-    `docker run --rm -ti -v $PWD:/var/www/app --env PGID=$(id -g) --env PUID=$(id -u)  travissouth/workspace composer`
+
+`docker run --rm -ti \
+    -v $PWD:/var/www/app \
+    --env PGID=$(id -g) \
+    --env PUID=$(id -u)  \
+    travissouth/workspace \
+    composer`
+
 To list other commands:
-    `docker run --rm -ti -v $PWD:/var/www/app --env PGID=$(id -g) --env PUID=$(id -u)  travissouth/workspace`
+
+`docker run --rm -ti \
+    -v $PWD:/var/www/app \
+    --env PGID=$(id -g) \
+    --env PUID=$(id -u) \
+    travissouth/workspace`
