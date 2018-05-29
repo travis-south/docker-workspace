@@ -5,6 +5,11 @@ Image for my dev tools
  - Composer
  - travissouth/phpqatools (PHPUnit, Behat, PHPCS, etc.)
  - Drush
+ - Laravel Installer
+ - NodeJS/NPM
+ - Yarn
+ - Python/PIP
+ - Ansible
 
 ## Usage
 To run composer:

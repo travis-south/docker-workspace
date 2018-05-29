@@ -100,18 +100,58 @@ USER daker
 RUN composer global require drush/drush:^9.0 && drush --version
 
 # Install Laravel artisan
+USER daker
+RUN composer global require laravel/installer && laravel --version
 
 # Install NodeJS
+USER root
+RUN curl -sL https://deb.nodesource.com/setup_8.x | bash - && \
+    install_clean nodejs && \
+    nodejs --version
+USER daker
+RUN nodejs --version && \
+    npm --version
 
 # Install Yarn
+USER root
+RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && \
+    echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list && \
+    install_clean yarn && \
+    yarn --version
+USER daker
+RUN yarn --version
 
-# Install Python
+# Install Python/PIP
+USER root
+RUN install_clean python-pip && \
+    python --version && \
+    pip --version
 
 # Install Ansible
+USER root
+RUN pip install --upgrade setuptools && \
+    pip install ansible && \
+    ansible --version
+USER daker
+RUN ansible --version
 
 # Install AWS CLI
+USER root
+RUN install_clean groff
+USER daker
+RUN pip install awscli --upgrade --user
+ENV PATH ${PATH}:/home/daker/.local/bin
+RUN echo "export PATH=${PATH}:/home/daker/.local/bin" >> ~/.bashrc
+RUN . ~/.bashrc && \
+    aws --version
 
 # Install Wodby CLI
+USER root
+RUN install_clean wget && \
+    export WODBY_CLI_LATEST_URL=$(curl -s https://api.github.com/repos/wodby/wodby-cli/releases/latest | grep linux-amd64 | grep browser_download_url | cut -d '"' -f 4) && \
+    wget -qO- "${WODBY_CLI_LATEST_URL}" | tar xz -C /usr/local/bin
+USER daker
+RUN wodby --help
 
 ###
 USER root
