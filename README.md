@@ -17,17 +17,21 @@ Image for my dev tools
 
 To run composer:
 
-`docker run --rm -ti \
+```shell
+docker run --rm -ti \
     -v $PWD:/var/www/app \
     --env PGID=$(id -g) \
     --env PUID=$(id -u)  \
     travissouth/workspace \
-    composer`
+    composer
+```
 
 To list other commands:
 
-`docker run --rm -ti \
+```shell
+docker run --rm -ti \
     -v $PWD:/var/www/app \
     --env PGID=$(id -g) \
     --env PUID=$(id -u) \
-    travissouth/workspace`
+    travissouth/workspace
+```
