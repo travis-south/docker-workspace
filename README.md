@@ -12,6 +12,8 @@ Image for my dev tools
  - Ansible
  - AWS CLI
  - Wodby CLI
+ - ES Lint
+ - TS Lint
 
 ## Usage
 

@@ -153,6 +153,10 @@ RUN install_clean wget && \
 USER daker
 RUN wodby --help
 
+# Install eslint and tslint
+USER root
+RUN npm install -g babel-eslint eslint typescript tslint
+
 ###
 USER root
 COPY workspace-list /usr/local/bin/workspace-list
