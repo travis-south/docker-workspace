@@ -127,8 +127,10 @@ RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && \
 USER daker
 RUN yarn --version && \
     echo "export YARN_CACHE_FOLDER=/home/daker/.docker-workspace/.yarn/cache" >> ~/.bashrc && \
+    echo "export PATH=${PATH}:/home/daker/.yarn/bin" >> ~/.bashrc && \
     . ~/.bashrc
 ENV YARN_CACHE_FOLDER /home/daker/.docker-workspace/.yarn/cache
+ENV PATH ${PATH}:/home/daker/.yarn/bin
 
 # Install Python/PIP
 USER root
@@ -167,8 +169,36 @@ USER daker
 RUN wodby --help
 
 # Install eslint and tslint
+USER daker
+RUN yarn global add babel-eslint eslint typescript tslint
+
+# Install sonarscanner
 USER root
-RUN npm install -g babel-eslint eslint typescript tslint
+RUN install_clean unzip \
+    xz-utils \
+    openjdk-8-jre-headless
+RUN java -version
+WORKDIR /
+RUN curl -o sonar-scanner-cli.zip -L https://sonarsource.bintray.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-3.2.0.1227.zip
+RUN unzip sonar-scanner-cli.zip
+RUN mv sonar-scanner-3.2.0.1227 sonar-scanner && \
+    chmod 777 -R /sonar-scanner
+RUN cd /usr/local/bin && ln -s /sonar-scanner/bin/sonar-scanner sonar-scanner
+RUN rm -rf /sonar-scanner-cli.zip
+WORKDIR /var/www/app
+USER daker
+RUN yarn global add tslint-sonarts
+ENV NODE_PATH /usr/lib/node_modules
+RUN echo "export NODE_PATH=/usr/lib/node_modules" >> ~/.bashrc
+ENV SONAR_USER_HOME /home/daker/.docker-workspace/.sonar
+RUN echo "export SONAR_USER_HOME=/home/daker/.docker-workspace/.sonar" >> ~/.bashrc
+RUN . ~/.bashrc
+
+# Install JMeter
+
+# Install Apache bench
+
+# Install siege
 
 ###
 USER root
