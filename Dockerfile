@@ -184,6 +184,7 @@ RUN unzip sonar-scanner-cli.zip
 RUN mv sonar-scanner-3.2.0.1227 sonar-scanner && \
     chmod 777 -R /sonar-scanner
 RUN cd /usr/local/bin && ln -s /sonar-scanner/bin/sonar-scanner sonar-scanner
+COPY sonar-scanner.properties /sonar-scanner/conf/sonar-scanner.properties
 RUN rm -rf /sonar-scanner-cli.zip
 WORKDIR /var/www/app
 USER daker
