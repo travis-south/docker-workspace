@@ -225,8 +225,22 @@ RUN . ~/.bashrc
 RUN jmeter -n -v
 
 # Install Apache bench
+USER root
+RUN install_clean apache2-utils && \
+    ab -V
 
 # Install siege
+USER root
+WORKDIR /
+RUN install_clean openssl libssl-dev zlib1g zlib1g-dev
+RUN curl -o siege.tar.gz -L http://download.joedog.org/siege/siege-4.0.4.tar.gz
+RUN tar -zxf siege.tar.gz
+RUN mv siege-4.0.4 siege
+RUN chmod 777 -R siege
+RUN cd siege && \
+    ./configure && \
+    make && \
+    make install
 
 ###
 USER root

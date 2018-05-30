@@ -14,6 +14,10 @@ Image for my dev tools
  - Wodby CLI
  - ES Lint
  - TS Lint
+ - Sonar CLI
+ - JMeter
+ - Apache Bench
+ - Siege
 
 ## Usage
 
