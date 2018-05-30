@@ -26,6 +26,7 @@ To run composer:
 ```shell
 docker run --rm -ti \
     -v $PWD:/var/www/app \
+    -v $HOME/.ssh:/home/daker/.ssh \
     --env PGID=$(id -g) \
     --env PUID=$(id -u)  \
     travissouth/workspace \
@@ -37,6 +38,7 @@ To list other commands:
 ```shell
 docker run --rm -ti \
     -v $PWD:/var/www/app \
+    -v $HOME/.ssh:/home/daker/.ssh \
     --env PGID=$(id -g) \
     --env PUID=$(id -u) \
     travissouth/workspace

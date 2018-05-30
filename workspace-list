@@ -10,7 +10,12 @@ neutral='\033[0m'
 printf ${neutral}"Workspace Tools\n"
 printf ${neutral}"\n"
 printf ${yellow}"Usage:\n"
-printf ${neutral}"  docker run --rm -ti -v \$PWD:/var/www/app --env PGID=\$(id -g) --env PUID=\$(id -u) travissouth/workspace command\n"
+printf ${neutral}"  docker run --rm -ti \\
+    -v \$PWD:/var/www/app \\
+    -v \$HOME/.ssh:/home/daker/.ssh \\
+    --env PGID=\$(id -g) \\
+    --env PUID=\$(id -u) \\
+    travissouth/workspace command\n"
 printf ${neutral}"\n"
 printf ${yellow}"Available commands:\n"
 printf ${green}"  composer\n"
