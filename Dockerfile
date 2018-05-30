@@ -195,6 +195,34 @@ RUN echo "export SONAR_USER_HOME=/home/daker/.docker-workspace/.sonar" >> ~/.bas
 RUN . ~/.bashrc
 
 # Install JMeter
+USER root
+ENV JMETER_HOME=/opt/jmeter \
+    JMETER_VERSION=3.3 \
+    PATH=/opt/jmeter/bin/:$PATH \
+    PLUGINS_PATH=/tmp/plugins
+RUN mkdir -p ${JMETER_HOME} \
+    && wget -O /tmp/jmeter.tgz https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-${JMETER_VERSION}.tgz \
+    && tar -C /tmp -xvzf /tmp/jmeter.tgz \
+    && mv /tmp/apache-jmeter-${JMETER_VERSION}/* ${JMETER_HOME} \
+    && rm -rf /tmp/jmeter.tgz /tmp/apache-jmeter-${JMETER_VERSION} /var/cache/apk/* \
+    && mkdir -p $PLUGINS_PATH \
+    && wget https://jmeter-plugins.org/files/packages/jpgc-cmd-2.1.zip \
+    && unzip -o -d $PLUGINS_PATH jpgc-cmd-2.1.zip \
+    && cp $PLUGINS_PATH/lib/*.jar $JMETER_HOME/lib/ \
+    && cp $PLUGINS_PATH/bin/* $JMETER_HOME/bin/ \
+    && cp $PLUGINS_PATH/lib/ext/*.jar $JMETER_HOME/lib/ext/ \
+    && rm -rf $PLUGINS_PATH
+RUN /opt/jmeter/bin/jmeter.sh -n -v \
+    && java -cp /opt/jmeter/lib/ext/jmeter-plugins-manager-0.20.jar org.jmeterplugins.repository.PluginManagerCMDInstaller
+RUN /opt/jmeter/bin/PluginsManagerCMD.sh install jpgc-oauth,jpgc-json,jpgc-casutg,jpgc-graphs-additional,jpgc-synthesis && \
+     chmod -R 777 /opt/jmeter
+USER daker
+ENV JMETER_HOME /opt/jmeter
+RUN echo "export JMETER_HOME=/opt/jmeter" >> ~/.bashrc
+ENV PATH ${PATH}:/opt/jmeter/bin
+RUN echo "export PATH=${PATH}:/opt/jmeter/bin" >> ~/.bashrc
+RUN . ~/.bashrc
+RUN jmeter -n -v
 
 # Install Apache bench
 
