@@ -5,5 +5,6 @@ docker run --rm -ti \
     -v $(pwd):/var/www/app \
     -v $HOME/.ssh:/home/daker/.ssh:ro \
     -v $HOME/.docker-workspace:/home/daker/.docker-workspace \
+    --volume=/var/run/docker.sock:/var/run/docker.sock \
     --env PGID=$(id -g) --env PUID=$(id -u) \
     test-workspace $@
