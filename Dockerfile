@@ -1,4 +1,23 @@
-FROM travissouth/baseimage
+FROM phusion/baseimage:0.10.1
+
+ENV LANGUAGE=en_US.UTF-8
+ENV LC_ALL=en_US.UTF-8
+ENV LC_CTYPE=en_US.UTF-8
+ENV LANG=en_US.UTF-8
+ENV TERM xterm
+
+# Start as root
+USER root
+
+# Add a non-root user to prevent files being created with root permissions on host machine.
+ARG PUID=1000
+ENV PUID ${PUID}
+ARG PGID=1000
+ENV PGID ${PGID}
+
+RUN groupadd -g ${PGID} -o daker && \
+    useradd -o -u ${PUID} -g daker -m daker -G docker_env && \
+    usermod -p "*" daker
 
 USER root
 
@@ -270,6 +289,10 @@ USER root
 COPY workspace-list /usr/local/bin/workspace-list
 RUN chmod +x /usr/local/bin/workspace-list
 CMD ["/usr/local/bin/workspace-list"]
+
+USER root
+COPY entrypoint.sh /entrypoint.sh
+ENTRYPOINT ["/entrypoint.sh"]
 
 # Clean up APT when done.
 USER root

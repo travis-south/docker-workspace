@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+set -e
+
+command -v git >/dev/null 2>&1 || { echo >&2 "I require git.  Aborting."; exit 1; }
+command -v docker >/dev/null 2>&1 || { echo >&2 "I require docker.  Aborting."; exit 1; }
+
+mkdir -p ~/.docker-workspace/src
+cd ~/.docker-workspace/src
+rm -rf docker-workspace
+git clone https://github.com/travis-south/docker-workspace.git
+cd docker-workspace
+docker build --build-arg PUID=$(id -u) --build-arg PGID=$(id -g) -t travissouth/workspace .
+sudo rm -f /usr/local/bin/ws
+sudo cp ./ws /usr/local/bin/ws
+sudo chmod a+x /usr/local/bin/ws
+ws

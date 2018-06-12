@@ -1,10 +1,5 @@
 #!/usr/bin/env bash
-
-docker build -t test-workspace .
-docker run --rm -ti \
-    -v $(pwd):/var/www/app \
-    -v $HOME/.ssh:/home/daker/.ssh:ro \
-    -v $HOME/.docker-workspace:/home/daker/.docker-workspace \
-    --volume=/var/run/docker.sock:/var/run/docker.sock \
-    --env PGID=$(id -g) --env PUID=$(id -u) \
-    test-workspace $@
+id -u
+id -g
+docker build --build-arg PUID=$(id -u) --build-arg PGID=$(id -g) -t test-workspace .
+./test $@

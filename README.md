@@ -22,25 +22,25 @@ Image for my dev tools
 
 ## Usage
 
-To run composer:
+### Requirements
+
+1. `sudo` permissions.
+1. git
+1. docker
+
+### Installation
 
 ```shell
-docker run --rm -ti \
-    -v $PWD:/var/www/app \
-    -v $HOME/.ssh:/home/daker/.ssh \
-    --env PGID=$(id -g) \
-    --env PUID=$(id -u)  \
-    travissouth/workspace \
-    composer
+bash <(curl https://raw.githubusercontent.com/travis-south/docker-workspace/master/install?no_cache=$RANDOM)
 ```
 
-To list other commands:
+### To run composer
+```shell
+ws composer
+```
+
+### To list other commands
 
 ```shell
-docker run --rm -ti \
-    -v $PWD:/var/www/app \
-    -v $HOME/.ssh:/home/daker/.ssh \
-    --env PGID=$(id -g) \
-    --env PUID=$(id -u) \
-    travissouth/workspace
+ws
 ```
