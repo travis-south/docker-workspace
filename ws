@@ -24,4 +24,4 @@ docker run --rm -ti \
     -w $(pwd) \
     $docker_sock_volume \
     --env PGID=$(id -g) --env PUID=$(id -u) \
-    travissouth/workspace $@
+    travissouth/workspace "$@"
