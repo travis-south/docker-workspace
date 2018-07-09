@@ -16,6 +16,11 @@ if [ ! -d "$HOME/.ssh" ]; then
    exit 1
 fi
 
+if [ "$1" = "update" ]; then
+  docker pull phusion/baseimage:0.10.1
+  bash <(curl https://raw.githubusercontent.com/travis-south/docker-workspace/master/install?no_cache=$RANDOM)
+fi
+
 docker run --rm -ti \
     -v $(pwd):/var/www/app \
     -v $HOME/.ssh:/home/daker/.ssh \
