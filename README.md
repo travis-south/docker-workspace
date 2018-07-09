@@ -18,7 +18,6 @@ Image for my dev tools
  - JMeter
  - Apache Bench
  - Siege
- - Docker and Docker Compose
 
 ## Usage
 
