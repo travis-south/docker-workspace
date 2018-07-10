@@ -23,7 +23,6 @@ if [ "$1" = "update" ]; then
 fi
 
 docker run --rm -ti \
-    -v $(pwd):/var/www/app \
     -v $HOME/.ssh:/home/daker/.ssh \
     -v $HOME/.docker-workspace:/home/daker/.docker-workspace \
     -v $(pwd):$(pwd) \

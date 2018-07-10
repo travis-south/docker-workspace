@@ -5,6 +5,9 @@ set -e
 command -v git >/dev/null 2>&1 || { echo >&2 "I require git.  Aborting."; exit 1; }
 command -v docker >/dev/null 2>&1 || { echo >&2 "I require docker.  Aborting."; exit 1; }
 
+if [ -d ~/.docker-workspace ]; then
+    sudo chown -R $(id -u):$(id -g) ~/.docker-workspace
+fi
 mkdir -p ~/.docker-workspace/src
 cd ~/.docker-workspace/src
 rm -rf docker-workspace
