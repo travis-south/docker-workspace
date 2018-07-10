@@ -18,6 +18,8 @@ Image for my dev tools
  - JMeter
  - Apache Bench
  - Siege
+ - Kubectl
+ - Helm
 
 ## Usage
 
