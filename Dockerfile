@@ -272,6 +272,34 @@ USER root
 COPY entrypoint.sh /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
 
+# Install Kubectl
+USER root
+RUN install_clean apt-transport-https && \
+    curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add - && \
+    touch /etc/apt/sources.list.d/kubernetes.list && \
+    echo "deb http://apt.kubernetes.io/ kubernetes-xenial main" | tee -a /etc/apt/sources.list.d/kubernetes.list && \
+    install_clean kubectl
+USER daker
+RUN mkdir -p /home/daker/.docker-workspace/.kube && \
+    touch /home/daker/.docker-workspace/.kube/config
+ENV KUBECONFIG /home/daker/.docker-workspace/.kube/config
+RUN echo "export KUBECONFIG=/home/daker/.docker-workspace/.kube/config" >> ~/.bashrc && \
+    . ~/.bashrc
+
+
+# Install Helm
+USER root
+WORKDIR /tmp
+RUN curl -o helm-v2.9.1-linux-amd64.tar.gz -L https://storage.googleapis.com/kubernetes-helm/helm-v2.9.1-linux-amd64.tar.gz && \
+    tar -zxf helm-v2.9.1-linux-amd64.tar.gz && \
+    mv linux-amd64/helm /usr/local/bin/ && \
+    chmod a+x /usr/local/bin/helm
+USER daker
+RUN mkdir -p /home/daker/.docker-workspace/.helm
+ENV HELM_HOME /home/daker/.docker-workspace/.helm
+RUN echo "export HELM_HOME=/home/daker/.docker-workspace/.helm" >> ~/.bashrc && \
+    . ~/.bashrc
+
 # Clean up APT when done.
 USER root
 RUN apt-get update -y && apt-get upgrade -y && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
