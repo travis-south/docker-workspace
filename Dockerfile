@@ -303,3 +303,16 @@ RUN echo "export HELM_HOME=/home/daker/.docker-workspace/.helm" >> ~/.bashrc && 
 # Clean up APT when done.
 USER root
 RUN apt-get update -y && apt-get upgrade -y && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+# Install Polymer CLI
+USER root
+RUN npm install -g polymer-cli --unsafe-perm
+
+# Install Angular CLI
+USER root
+RUN npm install -g @angular/cli
+EXPOSE 8001
+
+# Clean up APT when done.
+USER root
+RUN apt-get update -y && apt-get upgrade -y && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*

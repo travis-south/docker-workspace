@@ -7,4 +7,5 @@ docker run --rm -ti \
     -v $(pwd):$(pwd) \
     -w $(pwd) \
     --env PGID=$(id -g) --env PUID=$(id -u) \
+    -p 0.0.0.0:8001:8001 \
     test-workspace $@
