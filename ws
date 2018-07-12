@@ -30,4 +30,4 @@ docker run --rm -ti \
     $docker_sock_volume \
     --env PGID=$(id -g) --env PUID=$(id -u) \
     -p 0.0.0.0:8001:8001 \
-    travissouth/workspace "$@"
+    travissouth/workspace:$(id -u) "$@"

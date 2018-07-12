@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
 id -u
 id -g
-docker build --build-arg PUID=$(id -u) --build-arg PGID=$(id -g) -t test-workspace .
+docker build --build-arg PUID=$(id -u) --build-arg PGID=$(id -g) -t test-workspace:$(id -u) .
 ./test $@
