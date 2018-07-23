@@ -23,6 +23,7 @@ Image for my dev tools
  - Polymer CLI
  - Angular CLI
  - Exposes port 8001 to host for other usage
+ - Karma CLI
 
 ## Usage
 
