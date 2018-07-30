@@ -24,6 +24,7 @@ Image for my dev tools
  - Angular CLI
  - Exposes port 8001 to host for other usage
  - Karma CLI
+ - Lite server
 
 ## Usage
 

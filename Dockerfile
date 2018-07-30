@@ -317,6 +317,10 @@ EXPOSE 8001
 USER root
 RUN npm install -g karma-cli
 
+# Install Lite-server
+USER root
+RUN npm install -g lite-server
+
 # Clean up APT when done.
 USER root
 RUN apt-get update -y && apt-get upgrade -y && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
