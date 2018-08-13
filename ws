@@ -2,7 +2,13 @@
 
 set -e
 
-INTERACTIVE=${INTERACTIVE:-"i"}
+INTERACTIVE=${INTERACTIVE:-"yes"}
+
+if [ "${INTERACTIVE}" = "yes" ]; then
+  INTERACTIVE="i"
+else
+  INTERACTIVE=""
+fi
 
 command -v docker >/dev/null 2>&1 || { echo >&2 "I require docker but it's not installed.  Aborting."; exit 1; }
 
