@@ -2,6 +2,8 @@
 
 set -e
 
+INTERACTIVE=${INTERACTIVE:-"i"}
+
 command -v docker >/dev/null 2>&1 || { echo >&2 "I require docker but it's not installed.  Aborting."; exit 1; }
 
 docker_sock_volume=""
@@ -22,7 +24,7 @@ if [ "$1" = "update" ]; then
   exit 0
 fi
 
-docker run --rm -ti \
+docker run --rm -t${INTERACTIVE} \
     -v $HOME/.ssh:/home/daker/.ssh \
     -v $HOME/.docker-workspace:/home/daker/.docker-workspace \
     -v $(pwd):$(pwd) \
