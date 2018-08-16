@@ -262,12 +262,7 @@ RUN cd siege && \
     make && \
     make install
 
-###
-USER root
-COPY workspace-list /usr/local/bin/workspace-list
-RUN chmod +x /usr/local/bin/workspace-list
-CMD ["/usr/local/bin/workspace-list"]
-
+# Update entrypoint
 USER root
 COPY entrypoint.sh /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
@@ -320,6 +315,27 @@ RUN npm install -g karma-cli
 # Install Lite-server
 USER root
 RUN npm install -g lite-server
+
+# Install Golang
+USER root
+RUN wget https://dl.google.com/go/go1.10.3.linux-amd64.tar.gz && \
+    tar -C /usr/local -xzf go1.10.3.linux-amd64.tar.gz
+USER daker
+ENV PATH ${PATH}:/usr/local/go/bin:/home/daker/golang/bin
+RUN echo "export PATH=${PATH}:/usr/local/go/bin:/home/daker/golang/bin" >> ~/.bashrc
+ENV GOPATH /home/daker/golang
+RUN echo "export GOPATH=/home/daker/golang" >> ~/.bashrc
+RUN . ~/.bashrc
+
+# Install Minica
+USER daker
+RUN go get github.com/jsha/minica
+
+###
+USER root
+COPY workspace-list /usr/local/bin/workspace-list
+RUN chmod +x /usr/local/bin/workspace-list
+CMD ["/usr/local/bin/workspace-list"]
 
 # Clean up APT when done.
 USER root

@@ -25,6 +25,8 @@ Image for my dev tools
  - Exposes port 8001 to host for other usage
  - Karma CLI
  - Lite server
+ - Go
+ - Minica
 
 ## Usage
 
