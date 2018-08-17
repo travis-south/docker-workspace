@@ -27,6 +27,7 @@ Image for my dev tools
  - Lite server
  - Go
  - Minica
+ - Certbot
 
 ## Usage
 

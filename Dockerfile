@@ -331,6 +331,11 @@ RUN . ~/.bashrc
 USER daker
 RUN go get github.com/jsha/minica
 
+# Install Certbot
+USER root
+RUN add-apt-repository ppa:certbot/certbot && \
+    install_clean certbot
+
 ###
 USER root
 COPY workspace-list /usr/local/bin/workspace-list
