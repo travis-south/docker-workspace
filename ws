@@ -33,6 +33,7 @@ fi
 docker run --rm -t${INTERACTIVE} \
     -v $HOME/.ssh:/home/daker/.ssh \
     -v $HOME/.docker-workspace:/home/daker/.docker-workspace \
+    -v $HOME/.bash_profile:/home/daker/.bash_profile \
     -v $(pwd):$(pwd) \
     -w $(pwd) \
     $docker_sock_volume \
