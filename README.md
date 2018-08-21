@@ -28,6 +28,7 @@ Image for my dev tools
  - Go
  - Minica
  - Certbot
+ - Source Map Explorer
 
 ## Usage
 

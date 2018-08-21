@@ -336,6 +336,10 @@ USER root
 RUN add-apt-repository ppa:certbot/certbot && \
     install_clean certbot
 
+# Install Lite-server
+USER root
+RUN npm install -g source-map-explorer
+
 ###
 USER root
 COPY workspace-list /usr/local/bin/workspace-list
