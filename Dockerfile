@@ -78,7 +78,7 @@ RUN install_clean -y --allow-downgrades --allow-remove-essential \
 
 # Install composer and add its bin to the PATH.
 RUN curl -s http://getcomposer.org/installer | php && \
-    echo "export PATH=${PATH}:/var/www/vendor/bin:/usr/local/bin:/home/daker/.composer/vendor/bin" >> ~/.bashrc && \
+    echo "export PATH=${PATH}:/var/www/vendor/bin:/usr/local/bin:/home/daker/.composer/vendor/bin" > ~/.bashrc && \
     mv composer.phar /usr/local/bin/composer && \
     chmod +x /usr/local/bin/composer
 
@@ -89,7 +89,7 @@ ENV PATH ${PATH}:/var/www/vendor/bin:/usr/local/bin:/home/daker/.composer/vendor
 USER daker
 
 RUN mkdir -p /home/daker/.docker-workspace/.composer/cache
-RUN echo "export PATH=${PATH}:/var/www/vendor/bin:/usr/local/bin:/home/daker/.composer/vendor/bin" >> ~/.bashrc
+RUN echo "export PATH=${PATH}:/var/www/vendor/bin:/usr/local/bin:/home/daker/.composer/vendor/bin" > ~/.bashrc
 RUN echo "export COMPOSER_CACHE_DIR=/home/daker/.docker-workspace/.composer/cache" >> ~/.bashrc
 RUN . ~/.bashrc
 ENV PATH ${PATH}:/var/www/vendor/bin:/usr/local/bin:/home/daker/.composer/vendor/bin
@@ -347,9 +347,10 @@ RUN curl https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - &
 USER daker
 ENV PATH ${PATH}:/usr/lib/dart/bin
 RUN echo "export PATH=${PATH}:/usr/lib/dart/bin" >> ~/.bashrc
-ENV PUB_CACHE /home/daker/.docker-workspace/.pub-cache
-RUN echo "export PUB_CACHE=/home/daker/.docker-workspace/.pub-cache" >> ~/.bashrc
+ENV PATH ${PATH}:/home/daker/.pub-cache/bin
+RUN echo "export PATH=${PATH}:/home/daker/.pub-cache/bin" >> ~/.bashrc
 RUN . ~/.bashrc
+RUN pub global activate stagehand
 
 ###
 USER root
