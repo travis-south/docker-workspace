@@ -350,7 +350,8 @@ RUN echo "export PATH=${PATH}:/usr/lib/dart/bin" >> ~/.bashrc
 ENV PATH ${PATH}:/home/daker/.pub-cache/bin
 RUN echo "export PATH=${PATH}:/home/daker/.pub-cache/bin" >> ~/.bashrc
 RUN . ~/.bashrc
-RUN pub global activate stagehand
+RUN pub global activate stagehand && \
+    pub global activate webdev
 
 ###
 USER root
