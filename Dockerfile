@@ -347,6 +347,8 @@ RUN curl https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - &
 USER daker
 ENV PATH ${PATH}:/usr/lib/dart/bin
 RUN echo "export PATH=${PATH}:/usr/lib/dart/bin" >> ~/.bashrc
+ENV PUB_CACHE /home/daker/.docker-workspace/.pub-cache
+RUN echo "export PUB_CACHE=/home/daker/.docker-workspace/.pub-cache" >> ~/.bashrc
 RUN . ~/.bashrc
 
 ###
