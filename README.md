@@ -29,6 +29,7 @@ Image for my dev tools
  - Minica
  - Certbot
  - Source Map Explorer
+ - Dart
 
 ## Usage
 
