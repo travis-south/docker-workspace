@@ -353,6 +353,10 @@ RUN . ~/.bashrc
 RUN pub global activate stagehand && \
     pub global activate webdev
 
+# Add daker to group tty
+USER root
+RUN usermod -a -G tty daker
+
 ###
 USER root
 COPY workspace-list /usr/local/bin/workspace-list
