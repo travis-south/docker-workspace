@@ -30,6 +30,7 @@ Image for my dev tools
  - Certbot
  - Source Map Explorer
  - Dart
+ - Gatsby CLI
 
 ## Usage
 

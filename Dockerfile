@@ -357,6 +357,10 @@ RUN pub global activate stagehand && \
 USER root
 RUN usermod -a -G tty daker
 
+# Install Gatsby-cli
+USER root
+RUN npm install -g gatsby-cli
+
 ###
 USER root
 COPY workspace-list /usr/local/bin/workspace-list
