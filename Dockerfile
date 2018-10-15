@@ -111,7 +111,7 @@ RUN composer global require symfony/config:^3 \
     behat/mink-goutte-driver \
     behat/mink-selenium2-driver \
     behat/mink-zombie-driver \
-    drupal/coder \
+    drupal/coder:^8.2.0 \
     endouble/symfony3-custom-coding-standard \
     rregeer/phpunit-coverage-check
 RUN phpcs --config-set installed_paths \
@@ -198,9 +198,9 @@ RUN install_clean unzip \
     openjdk-8-jre-headless
 RUN java -version
 WORKDIR /
-RUN curl -o sonar-scanner-cli.zip -L https://sonarsource.bintray.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-3.2.0.1227.zip
+RUN curl -o sonar-scanner-cli.zip -L https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-3.2.0.1227-linux.zip
 RUN unzip sonar-scanner-cli.zip
-RUN mv sonar-scanner-3.2.0.1227 sonar-scanner && \
+RUN mv sonar-scanner-3.2.0.1227-linux sonar-scanner && \
     chmod 777 -R /sonar-scanner
 RUN cd /usr/local/bin && ln -s /sonar-scanner/bin/sonar-scanner sonar-scanner
 COPY sonar-scanner.properties /sonar-scanner/conf/sonar-scanner.properties
