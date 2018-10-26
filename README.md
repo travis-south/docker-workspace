@@ -31,6 +31,7 @@ Image for my dev tools
  - Source Map Explorer
  - Dart
  - Gatsby CLI
+ - Grunt CLI
 
 ## Usage
 

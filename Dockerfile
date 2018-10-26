@@ -361,7 +361,12 @@ RUN usermod -a -G tty daker
 USER root
 RUN npm install -g gatsby-cli
 
-###
+# Install Grunt CLI
+USER root
+RUN npm install -g grunt-cli
+
+
+################################### Add your updates before this line ###################
 USER root
 COPY workspace-list /usr/local/bin/workspace-list
 RUN chmod +x /usr/local/bin/workspace-list
