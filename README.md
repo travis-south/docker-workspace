@@ -32,6 +32,7 @@ Image for my dev tools
  - Dart
  - Gatsby CLI
  - Grunt CLI
+ - MySQL Client (cli)
 
 ## Usage
 

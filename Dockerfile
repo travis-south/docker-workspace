@@ -365,6 +365,10 @@ RUN npm install -g gatsby-cli
 USER root
 RUN npm install -g grunt-cli
 
+# Install mysql client
+USER root
+RUN install_clean mysql-client
+
 
 ################################### Add your updates before this line ###################
 USER root
