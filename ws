@@ -22,6 +22,14 @@ if [ "${COM}" = "bb" ]; then
   PORTS="8002-8010"
 fi
 
+VOLUME_OPTIONS=""
+
+case "$(uname)" in
+  Darwin)
+    VOLUME_OPTIONS=":delegated"
+    ;;
+esac
+
 command -v docker >/dev/null 2>&1 || { echo >&2 "I require docker but it's not installed.  Aborting."; exit 1; }
 
 docker_sock_volume=""
@@ -46,7 +54,7 @@ docker run --rm -t${INTERACTIVE} \
     -v $HOME/.ssh:/home/daker/.ssh \
     -v $HOME/.docker-workspace:/home/daker/.docker-workspace \
     -v $HOME/.bash_profile:/home/daker/.bash_profile \
-    -v $(pwd):$(pwd) \
+    -v $(pwd):$(pwd)${VOLUME_OPTIONS} \
     -w $(pwd) \
     $docker_sock_volume \
     --env PGID=$(id -g) --env PUID=$(id -u) \
