@@ -371,12 +371,12 @@ RUN install_clean mysql-client
 USER root
 COPY workspace-list /usr/local/bin/workspace-list
 RUN chmod +x /usr/local/bin/workspace-list
-CMD ["bash -l"]
+CMD []
 
 # Update entrypoint
 USER root
 COPY entrypoint.sh /entrypoint.sh
-ENTRYPOINT ["/entrypoint.sh"]
+ENTRYPOINT ["/sbin/my_init", "--"]
 
 # Clean up APT when done.
 USER root
