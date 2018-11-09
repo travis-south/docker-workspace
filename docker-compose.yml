@@ -1,0 +1,17 @@
+version: "2"
+services:
+  app-native-osx:
+    build:
+      context: ./
+      args:
+      - PUID=${PUID}
+      - PGID=${PGID}
+    ports: 
+      - "0.0.0.0:${PORTS}:8001"
+    command: ${CTR_COMMAND}
+    volumes:
+      - ${HOME}/.ssh:/home/daker/.ssh
+      - ${HOME}/.docker-workspace:/home/daker/.docker-workspace
+      - ${HOME}/.bash_profile:/home/daker/.bash_profile
+    working_dir: /home/daker/workdir
+

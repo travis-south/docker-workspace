@@ -5,6 +5,13 @@ set -e
 command -v git >/dev/null 2>&1 || { echo >&2 "I require git.  Aborting."; exit 1; }
 command -v docker >/dev/null 2>&1 || { echo >&2 "I require docker.  Aborting."; exit 1; }
 
+case "$(uname)" in
+  Darwin)
+    command -v gem >/dev/null 2>&1 || { echo >&2 "I require gem.  Aborting."; exit 1; }
+    gem install docker-sync
+    ;;
+esac
+
 if [ -d ~/.docker-workspace ]; then
     sudo chown -R $(id -u):$(id -g) ~/.docker-workspace
 fi

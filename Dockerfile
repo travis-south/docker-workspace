@@ -15,6 +15,8 @@ ENV PUID ${PUID}
 ARG PGID=1000
 ENV PGID ${PGID}
 
+RUN echo ${PGID} && echo ${PUID}
+
 RUN groupadd -g ${PGID} -o daker && \
     useradd -o -u ${PUID} -g daker -m daker -G docker_env && \
     usermod -p "*" daker
