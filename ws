@@ -37,7 +37,6 @@ command -v docker-compose >/dev/null 2>&1 || { echo >&2 "I require docker-compos
 
 WS_CWD=$PWD
 export WS_CWD=$PWD
-WS_PWD="${HOME}/.docker-workspace/src/docker-workspace"
 PGID=$(id -g)
 PUID=$(id -u)
 export PGID=$(id -g)
@@ -65,7 +64,7 @@ fi
 
 CTR_COMMAND=${COM}
 export CTR_COMMAND=${COM}
-cd $WS_PWD
+cd ${WS_PWD:-"${HOME}/.docker-workspace/src/docker-workspace"}
 docker-sync clean
 docker-sync-stack start
 docker-sync clean
