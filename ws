@@ -66,6 +66,10 @@ CTR_COMMAND=${COM}
 export CTR_COMMAND=${COM}
 cd ${WS_PWD:-"${HOME}/.docker-workspace/src/docker-workspace"}
 docker-sync-stack clean
-docker-sync-stack start >/dev/null 2>&1 &
-sleep 5
-docker-compose exec app-native-osx /sbin/setuser daker bash -l
+docker-sync-stack start &
+
+until docker-compose exec app-native-osx /sbin/setuser daker bash -l
+do
+  printf "Try again...\n"
+  sleep 5
+done
