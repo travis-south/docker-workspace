@@ -1,6 +1,7 @@
 version: "2"
 services:
   app-native-osx:
+    image: travissouth/workspace:${PUID}
     build:
       context: ./
       args:

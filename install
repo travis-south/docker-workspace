@@ -20,7 +20,6 @@ cd ~/.docker-workspace/src
 rm -rf docker-workspace
 git clone https://github.com/travis-south/docker-workspace.git
 cd docker-workspace
-docker build --build-arg PUID=$(id -u) --build-arg PGID=$(id -g) -t travissouth/workspace:$(id -u) .
 sudo rm -f /usr/local/bin/ws
 sudo cp ./ws /usr/local/bin/ws
 sudo chmod a+x /usr/local/bin/ws
