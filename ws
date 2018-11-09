@@ -73,3 +73,4 @@ do
   printf "Try again...\n"
   sleep 10
 done
+docker-sync-stack clean
