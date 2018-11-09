@@ -8,7 +8,7 @@ command -v docker >/dev/null 2>&1 || { echo >&2 "I require docker.  Aborting."; 
 case "$(uname)" in
   Darwin)
     command -v gem >/dev/null 2>&1 || { echo >&2 "I require gem.  Aborting."; exit 1; }
-    gem install docker-sync
+    sudo gem install docker-sync
     ;;
 esac
 
