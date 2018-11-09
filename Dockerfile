@@ -264,11 +264,6 @@ RUN cd siege && \
     make && \
     make install
 
-# Update entrypoint
-USER root
-COPY entrypoint.sh /entrypoint.sh
-ENTRYPOINT ["/entrypoint.sh"]
-
 # Install Kubectl
 USER root
 RUN install_clean apt-transport-https && \
@@ -376,7 +371,12 @@ RUN install_clean mysql-client
 USER root
 COPY workspace-list /usr/local/bin/workspace-list
 RUN chmod +x /usr/local/bin/workspace-list
-CMD ["/usr/local/bin/workspace-list"]
+CMD ["bash -l"]
+
+# Update entrypoint
+USER root
+COPY entrypoint.sh /entrypoint.sh
+ENTRYPOINT ["/entrypoint.sh"]
 
 # Clean up APT when done.
 USER root

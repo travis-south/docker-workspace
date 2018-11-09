@@ -65,7 +65,8 @@ fi
 CTR_COMMAND=${COM}
 export CTR_COMMAND=${COM}
 cd ${WS_PWD:-"${HOME}/.docker-workspace/src/docker-workspace"}
-docker-sync clean
-docker-sync-stack start
-docker-sync clean
-docker-compose down
+docker-sync-stack clean
+docker-sync-stack start >/dev/null 2>&1 &
+#docker-sync start -d
+#docker-compose up --build -d
+
