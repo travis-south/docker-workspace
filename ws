@@ -37,7 +37,7 @@ command -v docker-compose >/dev/null 2>&1 || { echo >&2 "I require docker-compos
 
 WS_CWD=$PWD
 export WS_CWD=$PWD
-WS_PWD=$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )
+WS_PWD="${HOME}/.docker-workspace/src"
 PGID=$(id -g)
 PUID=$(id -u)
 export PGID=$(id -g)
