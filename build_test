@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
 id -u
 id -g
+export BUILD_IMAGE="yes"
 ./test $@

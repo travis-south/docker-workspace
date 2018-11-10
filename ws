@@ -3,6 +3,7 @@
 set -e
 
 INTERACTIVE=${INTERACTIVE:-"yes"}
+BUILD_IMAGE=${BUILD_IMAGE:-"no"}
 COM=$@
 PORTS="8001-8010"
 export PORTS="8001-8010"
@@ -66,6 +67,12 @@ CTR_COMMAND=${COM}
 export CTR_COMMAND=${COM}
 cd ${WS_PWD:-"${HOME}/.docker-workspace/src/docker-workspace"}
 docker-sync-stack clean
+if [ "${BUILD_IMAGE}" = "yes" ] 
+then
+  docker-compose up --build
+  docker-sync-stack clean
+  exit 0
+fi
 docker-sync-stack start >/dev/null 2>&1 &
 
 until docker-compose exec app-native-osx /sbin/setuser daker bash -l
