@@ -74,7 +74,7 @@ if [ "${COM}" = "b" ] || [ "${COM}" = "bb" ]; then
   docker-sync-stack clean
   docker-sync-stack start >/dev/null 2>&1 &
   printf "Processing..."
-  until docker-compose exec app-native-osx /sbin/setuser daker bash -l
+  until docker-compose exec app-native-osx /sbin/setuser daker bash -l 2>/dev/null
   do
     printf "."
     sleep 5
