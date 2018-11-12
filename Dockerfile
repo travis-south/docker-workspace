@@ -366,17 +366,21 @@ RUN npm install -g grunt-cli
 USER root
 RUN install_clean mysql-client
 
+# Install Jest CLI
+USER root
+RUN npm install -g jest
+
 
 ################################### Add your updates before this line ###################
 USER root
 COPY workspace-list /usr/local/bin/workspace-list
 RUN chmod +x /usr/local/bin/workspace-list
-CMD []
+CMD ["/usr/local/bin/workspace-list"]
 
 # Update entrypoint
 USER root
 COPY entrypoint.sh /entrypoint.sh
-ENTRYPOINT ["/sbin/my_init", "--"]
+ENTRYPOINT ["/entrypoint.sh"]
 
 # Clean up APT when done.
 USER root

@@ -9,7 +9,8 @@ services:
       - PGID=${PGID}
     ports: 
       - "0.0.0.0:${PORTS}:8001"
-    command: ${CTR_COMMAND}
+    entrypoint: ["/sbin/my_init", "--"]
+    command: []
     volumes:
       - ${HOME}/.ssh:/home/daker/.ssh
       - ${HOME}/.docker-workspace:/home/daker/.docker-workspace

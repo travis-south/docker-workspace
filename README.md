@@ -33,6 +33,7 @@ Image for my dev tools
  - Gatsby CLI
  - Grunt CLI
  - MySQL Client (cli)
+ - Jest CLI
 
 ## Usage
 

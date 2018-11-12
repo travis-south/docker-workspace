@@ -5,8 +5,8 @@ set -e
 INTERACTIVE=${INTERACTIVE:-"yes"}
 BUILD_IMAGE=${BUILD_IMAGE:-"no"}
 COM=$@
-PORTS="8001-8010"
-export PORTS="8001-8010"
+PORTS="8002-8010"
+export PORTS="8002-8010"
 if [ "${INTERACTIVE}" = "yes" ]; then
   INTERACTIVE="i"
 else
@@ -14,13 +14,11 @@ else
 fi
 
 if [ "${COM}" = "b" ]; then
-  COM="bash -l"
   PORTS="8001"
   export PORTS="8001"
 fi
 
 if [ "${COM}" = "bb" ]; then
-  COM="bash -l"
   PORTS="8002-8010"
   export PORTS="8002-8010"
 fi
@@ -63,21 +61,34 @@ if [ "$1" = "update" ]; then
   exit 0
 fi
 
-CTR_COMMAND=${COM}
-export CTR_COMMAND=${COM}
-cd ${WS_PWD:-"${HOME}/.docker-workspace/src/docker-workspace"}
-docker-sync-stack clean
+#CTR_COMMAND=${COM}
+#export CTR_COMMAND=${COM}
 if [ "${BUILD_IMAGE}" = "yes" ] 
 then
   docker-compose up --build
   docker-sync-stack clean
-  exit 0
 fi
-docker-sync-stack start >/dev/null 2>&1 &
 
-until docker-compose exec app-native-osx /sbin/setuser daker bash -l
-do
-  printf "Try again...\n"
-  sleep 10
-done
-docker-sync-stack clean
+if [ "${COM}" = "b" ] || [ "${COM}" = "bb" ]; then
+  cd ${WS_PWD:-"${HOME}/.docker-workspace/src/docker-workspace"}
+  docker-sync-stack clean
+  docker-sync-stack start >/dev/null 2>&1 &
+  printf "Processing..."
+  until docker-compose exec app-native-osx /sbin/setuser daker bash -l
+  do
+    printf "."
+    sleep 5
+  done
+  docker-sync-stack clean
+else
+  docker run --rm -t${INTERACTIVE} \
+    -v $HOME/.ssh:/home/daker/.ssh \
+    -v $HOME/.docker-workspace:/home/daker/.docker-workspace \
+    -v $HOME/.bash_profile:/home/daker/.bash_profile \
+    -v $(pwd):$(pwd)${VOLUME_OPTIONS} \
+    -w $(pwd) \
+    $docker_sock_volume \
+    --env PGID=$(id -g) --env PUID=$(id -u) \
+    -p 0.0.0.0:${PORTS}:8001 \
+    travissouth/workspace:$(id -u) ${COM}
+fi
