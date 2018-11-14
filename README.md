@@ -34,6 +34,7 @@ Image for my dev tools
  - Grunt CLI
  - MySQL Client (cli)
  - Jest CLI
+ - JQ
 
 ## Usage
 

@@ -370,6 +370,10 @@ RUN install_clean mysql-client
 USER root
 RUN npm install -g jest
 
+# Install JQ
+USER root
+RUN install_clean jq
+
 
 ################################### Add your updates before this line ###################
 USER root
