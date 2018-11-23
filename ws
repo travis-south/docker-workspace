@@ -40,8 +40,8 @@ PGID=$(id -g)
 PUID=$(id -u)
 export PGID=$(id -g)
 export PUID=$(id -u)
-printf "Running in ${WS_CWD}\n"
-printf "Use PUID ${PUID} and PGID ${PGID}\n"
+#printf "Running in ${WS_CWD}\n"
+#printf "Use PUID ${PUID} and PGID ${PGID}\n"
 
 docker_sock_volume=""
 # Check if we have docker on host
