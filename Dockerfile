@@ -374,6 +374,24 @@ RUN npm install -g jest
 USER root
 RUN install_clean jq
 
+# Install docker client
+USER root
+RUN install_clean ca-certificates \
+        software-properties-common \
+        iputils-ping && \
+        curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add - && \
+        apt-key fingerprint 0EBFCD88 && \
+        add-apt-repository \
+                "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
+                $(lsb_release -cs) \
+                stable"
+RUN install_clean docker-ce
+RUN usermod -aG docker,root daker
+
+# Install docker-compose
+USER root
+RUN curl -L "https://github.com/docker/compose/releases/download/1.23.1/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose && \
+        chmod +x /usr/local/bin/docker-compose
 
 ################################### Add your updates before this line ###################
 USER root

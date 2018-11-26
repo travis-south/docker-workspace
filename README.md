@@ -35,6 +35,8 @@ Image for my dev tools
  - MySQL Client (cli)
  - Jest CLI
  - JQ
+ - Docker
+ - Docker Compose
 
 ## Usage
 
