@@ -65,7 +65,7 @@ fi
 #export CTR_COMMAND=${COM}
 if [ "${BUILD_IMAGE}" = "yes" ] 
 then
-  docker-compose up --build
+  docker-compose build
   docker-sync-stack clean
 fi
 

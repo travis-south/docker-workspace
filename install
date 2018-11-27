@@ -23,6 +23,6 @@ cd docker-workspace
 sudo rm -f /usr/local/bin/ws
 sudo cp ./ws /usr/local/bin/ws
 sudo chmod a+x /usr/local/bin/ws
-docker-compose up --build
+docker-compose build
 docker-compose down
 ws
