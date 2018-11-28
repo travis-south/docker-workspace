@@ -37,6 +37,8 @@ Image for my dev tools
  - JQ
  - Docker
  - Docker Compose
+ - Dig
+ - Whois
 
 ## Usage
 
