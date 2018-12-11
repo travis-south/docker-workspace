@@ -401,6 +401,10 @@ RUN install_clean whois dnsutils
 USER root
 RUN npm install -g react-native-cli create-react-native-app
 
+# Install expo-cli
+USER root
+RUN npm install -g expo-cli
+
 ################################### Add your updates before this line ###################
 USER root
 COPY workspace-list /usr/local/bin/workspace-list
