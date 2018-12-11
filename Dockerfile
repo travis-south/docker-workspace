@@ -397,6 +397,9 @@ RUN curl -L "https://github.com/docker/compose/releases/download/1.23.1/docker-c
 USER root
 RUN install_clean whois dnsutils
 
+# Install react-native-cli and create-react-native-app
+USER root
+RUN npm install -g react-native-cli create-react-native-app
 
 ################################### Add your updates before this line ###################
 USER root

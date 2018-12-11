@@ -39,6 +39,7 @@ Image for my dev tools
  - Docker Compose
  - Dig
  - Whois
+ - React Native CLI and create-react-native CLI
 
 ## Usage
 

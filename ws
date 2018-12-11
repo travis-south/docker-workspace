@@ -6,6 +6,7 @@ INTERACTIVE=${INTERACTIVE:-"yes"}
 BUILD_IMAGE=${BUILD_IMAGE:-"no"}
 COM=$@
 PORTS="8002-8010"
+PROJECT_NAME=$(date -j -f "%a %b %d %T %Z %Y" "`date`" "+%s")
 export PORTS="8002-8010"
 if [ "${INTERACTIVE}" = "yes" ]; then
   INTERACTIVE="i"
@@ -71,15 +72,20 @@ fi
 
 if [ "${COM}" = "b" ] || [ "${COM}" = "bb" ]; then
   cd ${WS_PWD:-"${HOME}/.docker-workspace/src/docker-workspace"}
-  docker-sync-stack clean
-  docker-sync-stack start >/dev/null 2>&1 &
+  sed "s/native-osx/native-osx-${PROJECT_NAME}/g" docker-sync.yml > .docker-sync.yml
+  sed "s/native-osx/native-osx-${PROJECT_NAME}/g" docker-compose.yml > .docker-compose.yml
+  sed "s/native-osx/native-osx-${PROJECT_NAME}/g" docker-compose-dev.yml > .docker-compose-dev.yml
+  docker-sync start -c .docker-sync.yml &
+  sleep 1
+  docker-compose -f .docker-compose.yml -f .docker-compose-dev.yml up -d
   printf "Processing..."
-  until docker-compose exec app-native-osx /sbin/setuser daker bash -l 2>/dev/null
+  until docker-compose -f .docker-compose.yml -f .docker-compose-dev.yml exec app-native-osx-${PROJECT_NAME} /sbin/setuser daker bash -l 2>/dev/null
   do
     printf "."
     sleep 5
   done
-  docker-sync-stack clean
+  docker-sync clean -c .docker-sync.yml
+  docker-compose -f .docker-compose.yml -f .docker-compose-dev.yml down -v
 else
   docker run --rm -t${INTERACTIVE} \
     -v $HOME/.ssh:/home/daker/.ssh \
