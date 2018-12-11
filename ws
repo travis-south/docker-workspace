@@ -71,7 +71,9 @@ then
 fi
 
 if [ "${COM}" = "b" ] || [ "${COM}" = "bb" ]; then
-  cd ${WS_PWD:-"${HOME}/.docker-workspace/src/docker-workspace"}
+  WS_PWD=${WS_PWD:-"${HOME}/.docker-workspace/src/docker-workspace"}
+  cp -pR ${WS_PWD} ${WS_PWD}-${PROJECT_NAME}
+  cd ${WS_PWD}-${PROJECT_NAME}
   sed "s/native-osx/native-osx-${PROJECT_NAME}/g" docker-sync.yml > .docker-sync-${PROJECT_NAME}.yml
   sed "s/native-osx/native-osx-${PROJECT_NAME}/g" docker-compose.yml > .docker-compose-${PROJECT_NAME}.yml
   sed "s/native-osx/native-osx-${PROJECT_NAME}/g" docker-compose-dev.yml > .docker-compose-dev-${PROJECT_NAME}.yml
@@ -87,6 +89,8 @@ if [ "${COM}" = "b" ] || [ "${COM}" = "bb" ]; then
   docker-sync clean -c .docker-sync-${PROJECT_NAME}.yml
   docker-compose -f .docker-compose-${PROJECT_NAME}.yml -f .docker-compose-dev-${PROJECT_NAME}.yml down -v
   rm -rf .docker-sync-${PROJECT_NAME}.yml .docker-compose-${PROJECT_NAME}.yml .docker-compose-dev-${PROJECT_NAME}.yml
+  cd ${WS_PWD}
+  rm -rf ${WS_PWD}-${PROJECT_NAME}
 else
   docker run --rm -t${INTERACTIVE} \
     -v $HOME/.ssh:/home/daker/.ssh \
