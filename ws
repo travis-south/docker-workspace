@@ -72,20 +72,21 @@ fi
 
 if [ "${COM}" = "b" ] || [ "${COM}" = "bb" ]; then
   cd ${WS_PWD:-"${HOME}/.docker-workspace/src/docker-workspace"}
-  sed "s/native-osx/native-osx-${PROJECT_NAME}/g" docker-sync.yml > .docker-sync.yml
-  sed "s/native-osx/native-osx-${PROJECT_NAME}/g" docker-compose.yml > .docker-compose.yml
-  sed "s/native-osx/native-osx-${PROJECT_NAME}/g" docker-compose-dev.yml > .docker-compose-dev.yml
-  docker-sync start -c .docker-sync.yml &
+  sed "s/native-osx/native-osx-${PROJECT_NAME}/g" docker-sync.yml > .docker-sync-${PROJECT_NAME}.yml
+  sed "s/native-osx/native-osx-${PROJECT_NAME}/g" docker-compose.yml > .docker-compose-${PROJECT_NAME}.yml
+  sed "s/native-osx/native-osx-${PROJECT_NAME}/g" docker-compose-dev.yml > .docker-compose-dev-${PROJECT_NAME}.yml
+  docker-sync start -c .docker-sync-${PROJECT_NAME}.yml &
   sleep 1
-  docker-compose -f .docker-compose.yml -f .docker-compose-dev.yml up -d
+  docker-compose -f .docker-compose-${PROJECT_NAME}.yml -f .docker-compose-dev-${PROJECT_NAME}.yml up -d
   printf "Processing..."
-  until docker-compose -f .docker-compose.yml -f .docker-compose-dev.yml exec app-native-osx-${PROJECT_NAME} /sbin/setuser daker bash -l 2>/dev/null
+  until docker-compose -f .docker-compose-${PROJECT_NAME}.yml -f .docker-compose-dev-${PROJECT_NAME}.yml exec app-native-osx-${PROJECT_NAME} /sbin/setuser daker bash -l 2>/dev/null
   do
     printf "."
     sleep 5
   done
-  docker-sync clean -c .docker-sync.yml
-  docker-compose -f .docker-compose.yml -f .docker-compose-dev.yml down -v
+  docker-sync clean -c .docker-sync-${PROJECT_NAME}.yml
+  docker-compose -f .docker-compose-${PROJECT_NAME}.yml -f .docker-compose-dev-${PROJECT_NAME}.yml down -v
+  rm -rf .docker-sync-${PROJECT_NAME}.yml .docker-compose-${PROJECT_NAME}.yml .docker-compose-dev-${PROJECT_NAME}.yml
 else
   docker run --rm -t${INTERACTIVE} \
     -v $HOME/.ssh:/home/daker/.ssh \
