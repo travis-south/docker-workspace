@@ -78,7 +78,12 @@ if [ "${COM}" = "b" ] || [ "${COM}" = "bb" ]; then
   sed "s/native-osx/native-osx-${PROJECT_NAME}/g" docker-compose.yml > .docker-compose-${PROJECT_NAME}.yml
   sed "s/native-osx/native-osx-${PROJECT_NAME}/g" docker-compose-dev.yml > .docker-compose-dev-${PROJECT_NAME}.yml
   docker-sync start -c .docker-sync-${PROJECT_NAME}.yml &
-  sleep 1
+  printf "Waiting for volume..."
+  until docker volume ls | grep appcode-native-osx-${PROJECT_NAME}-sync
+  do
+    printf "."
+    sleep 1
+  done
   docker-compose -f .docker-compose-${PROJECT_NAME}.yml -f .docker-compose-dev-${PROJECT_NAME}.yml up -d
   printf "Processing..."
   until docker-compose -f .docker-compose-${PROJECT_NAME}.yml -f .docker-compose-dev-${PROJECT_NAME}.yml exec app-native-osx-${PROJECT_NAME} /sbin/setuser daker bash -l 2>/dev/null
