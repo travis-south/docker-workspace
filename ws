@@ -91,8 +91,8 @@ if [ "${COM}" = "b" ] || [ "${COM}" = "bb" ]; then
     printf "."
     sleep 5
   done
-  docker-sync clean -c .docker-sync-${PROJECT_NAME}.yml
   docker-compose -f .docker-compose-${PROJECT_NAME}.yml -f .docker-compose-dev-${PROJECT_NAME}.yml down -v
+  docker-sync clean -c .docker-sync-${PROJECT_NAME}.yml
   rm -rf .docker-sync-${PROJECT_NAME}.yml .docker-compose-${PROJECT_NAME}.yml .docker-compose-dev-${PROJECT_NAME}.yml
   cd ${WS_PWD}
   rm -rf ${WS_PWD}-${PROJECT_NAME}
