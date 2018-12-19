@@ -8,6 +8,8 @@ COM=$@
 PORTS="8002-8010"
 PROJECT_NAME=$(date -j -f "%a %b %d %T %Z %Y" "`date`" "+%s")
 export PORTS="8002-8010"
+FOLDER_NAME=${PWD##*/}
+export FOLDER_NAME=${PWD##*/}
 if [ "${INTERACTIVE}" = "yes" ]; then
   INTERACTIVE="i"
 else

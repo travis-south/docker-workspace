@@ -2,7 +2,7 @@ version: "2"
 services:
   app-native-osx:
     volumes:
-      - appcode-native-osx-sync:/home/daker/workdir:nocopy # nocopy is important
+      - appcode-native-osx-sync:/home/daker/${FOLDER_NAME}:nocopy # nocopy is important
 
 # that the important thing
 volumes:
