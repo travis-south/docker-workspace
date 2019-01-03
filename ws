@@ -103,6 +103,7 @@ else
     -v $HOME/.ssh:/home/daker/.ssh \
     -v $HOME/.docker-workspace:/home/daker/.docker-workspace \
     -v $HOME/.bash_profile:/home/daker/.bash_profile \
+    -v $HOME/.gitconfig:/home/daker/.gitconfig \
     -v $(pwd):$(pwd)${VOLUME_OPTIONS} \
     -w $(pwd) \
     $docker_sock_volume \
