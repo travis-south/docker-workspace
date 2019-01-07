@@ -46,6 +46,24 @@ export PUID=$(id -u)
 #printf "Running in ${WS_CWD}\n"
 #printf "Use PUID ${PUID} and PGID ${PGID}\n"
 
+function finish {
+  if [ "${COM}" = "b" ] || [ "${COM}" = "bb" ]; then
+    WS_PWD=${WS_PWD:-"${HOME}/.docker-workspace/src/docker-workspace"}
+    cd ${WS_PWD}-${PROJECT_NAME}
+    echo $WS_PWD > ~/.docker-workspace/debug.log
+    docker-compose -f .docker-compose-${PROJECT_NAME}.yml -f .docker-compose-dev-${PROJECT_NAME}.yml down -v >> ~/.docker-workspace/debug.log
+    docker-sync clean -c .docker-sync-${PROJECT_NAME}.yml >> ~/.docker-workspace/debug.log
+    rm -rf .docker-sync-${PROJECT_NAME}.yml .docker-compose-${PROJECT_NAME}.yml .docker-compose-dev-${PROJECT_NAME}.yml
+    cd ${WS_PWD}
+    rm -rf ${WS_PWD}-${PROJECT_NAME}
+  else
+    docker rm -f ${PROJECT_NAME}
+  fi
+}
+
+trap finish 1 2 3 6 15
+
+
 docker_sock_volume=""
 # Check if we have docker on host
 if [ -S "/var/run/docker.sock" ]; then
@@ -109,5 +127,6 @@ else
     $docker_sock_volume \
     --env PGID=$(id -g) --env PUID=$(id -u) \
     -p 0.0.0.0:${PORTS}:8001 \
+    --name ${PROJECT_NAME} \
     travissouth/workspace:$(id -u) ${COM}
 fi
