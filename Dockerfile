@@ -405,6 +405,16 @@ RUN npm install -g react-native-cli create-react-native-app
 USER root
 RUN npm install -g expo-cli
 
+# Install ruby
+USER root
+RUN apt-add-repository -y ppa:rael-gc/rvm && \
+       install_clean rvm
+RUN /usr/share/rvm/bin/rvm install ruby 2.6.0
+USER daker
+RUN echo "source /usr/share/rvm/scripts/rvm" >> ~/.bashrc
+RUN echo "export PATH=${PATH}:/usr/share/rvm/rubies/ruby-2.6.0/bin" >> ~/.bashrc
+ENV PATH ${PATH}:/usr/share/rvm/rubies/ruby-2.6.0/bin
+
 ################################### Add your updates before this line ###################
 USER root
 COPY workspace-list /usr/local/bin/workspace-list

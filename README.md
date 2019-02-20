@@ -41,6 +41,7 @@ Image for my dev tools
  - Whois
  - React Native CLI and create-react-native CLI
  - Expo CLI
+ - RVM and Ruby
 
 ## Usage
 
