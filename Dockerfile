@@ -428,4 +428,4 @@ ENTRYPOINT ["/entrypoint.sh"]
 
 # Clean up APT when done.
 USER root
-RUN apt-get update -y && apt-get upgrade -y && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+RUN apt-get update -y && apt-get upgrade -y --allow-unauthenticated && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
