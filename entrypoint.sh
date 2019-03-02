@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-exec /sbin/setuser daker "$@" | tr -d '\r\n'
+exec /sbin/setuser daker "$@"
