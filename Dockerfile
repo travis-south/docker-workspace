@@ -415,6 +415,13 @@ RUN echo "source /usr/share/rvm/scripts/rvm" >> ~/.bashrc
 RUN echo "export PATH=${PATH}:/usr/share/rvm/rubies/ruby-2.6.0/bin" >> ~/.bashrc
 ENV PATH ${PATH}:/usr/share/rvm/rubies/ruby-2.6.0/bin
 
+# Add custom script
+USER daker
+ADD custom-scripts /custom-scripts
+RUN echo "export PATH=${PATH}:/custom-scripts" >> ~/.bashrc
+ENV PATH ${PATH}:/custom-scripts
+
+
 ################################### Add your updates before this line ###################
 USER root
 COPY workspace-list /usr/local/bin/workspace-list

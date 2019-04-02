@@ -1,3 +1,4 @@
 *.log
 .docker-sync
 .docker-*.yml
+custom-scripts
