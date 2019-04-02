@@ -421,6 +421,13 @@ ADD custom-scripts /custom-scripts
 RUN echo "export PATH=${PATH}:/custom-scripts" >> ~/.bashrc
 ENV PATH ${PATH}:/custom-scripts
 
+# Add AWS IAM auth
+USER daker
+RUN curl -o aws-iam-authenticator https://amazon-eks.s3-us-west-2.amazonaws.com/1.12.7/2019-03-27/bin/linux/amd64/aws-iam-authenticator \
+        -o /custom-scripts/aws-iam-authenticator && \
+        chmod +x /custom-scripts/aws-iam-authenticator && \
+        aws-iam-authenticator help
+
 
 ################################### Add your updates before this line ###################
 USER root

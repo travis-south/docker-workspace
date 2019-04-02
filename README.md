@@ -42,6 +42,7 @@ Image for my dev tools
  - React Native CLI and create-react-native CLI
  - Expo CLI
  - RVM and Ruby
+ - AWS IAM Auth CLI
 
 ## Usage
 
