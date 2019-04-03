@@ -43,6 +43,7 @@ Image for my dev tools
  - Expo CLI
  - RVM and Ruby
  - AWS IAM Auth CLI
+ - EKS CTL
 
 ## Usage
 
