@@ -44,6 +44,7 @@ Image for my dev tools
  - RVM and Ruby
  - AWS IAM Auth CLI
  - EKS CTL
+ - Deno
 
 ## Usage
 

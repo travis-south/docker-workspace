@@ -434,6 +434,12 @@ RUN curl --silent --location "https://github.com/weaveworks/eksctl/releases/down
         chmod +x /usr/local/bin/eksctl && \
         eksctl
 
+# Install deno
+USER daker
+RUN curl -fsSL https://deno.land/x/install/install.sh | sh
+RUN echo "export PATH=${PATH}:/home/daker/.deno/bin" >> ~/.bashrc
+ENV PATH PATH=${PATH}:/home/daker/.deno/bin
+RUN deno -h
 
 ################################### Add your updates before this line ###################
 USER root
