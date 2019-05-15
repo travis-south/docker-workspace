@@ -441,6 +441,11 @@ RUN echo "export PATH=${PATH}:/home/daker/.deno/bin" >> ~/.bashrc
 ENV PATH PATH=${PATH}:/home/daker/.deno/bin
 RUN deno -h
 
+# Install Hugo
+USER root
+RUN install_clean hugo 
+RUN hugo help
+
 ################################### Add your updates before this line ###################
 USER root
 COPY workspace-list /usr/local/bin/workspace-list

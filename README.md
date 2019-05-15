@@ -45,6 +45,7 @@ Image for my dev tools
  - AWS IAM Auth CLI
  - EKS CTL
  - Deno
+ - Hugo
 
 ## Usage
 
