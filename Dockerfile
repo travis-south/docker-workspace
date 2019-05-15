@@ -443,8 +443,10 @@ RUN deno -h
 
 # Install Hugo
 USER root
-RUN install_clean hugo 
-RUN hugo help
+RUN curl -LSs https://github.com/gohugoio/hugo/releases/download/v0.55.5/hugo_0.55.5_Linux-64bit.deb \
+        -o /tmp/hugo_0.55.5_Linux-64bit.deb && \
+        dpkg -i /tmp/hugo_0.55.5_Linux-64bit.deb
+RUN hugo version
 
 ################################### Add your updates before this line ###################
 USER root
