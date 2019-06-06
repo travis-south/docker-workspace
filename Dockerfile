@@ -431,6 +431,13 @@ RUN echo "export PATH=${PATH}:/home/daker/.deno/bin" >> ~/.bashrc
 ENV PATH PATH=${PATH}:/home/daker/.deno/bin
 RUN deno -h
 
+# Install Hugo
+USER root
+RUN curl -LSs https://github.com/gohugoio/hugo/releases/download/v0.55.5/hugo_extended_0.55.5_Linux-64bit.deb \
+        -o /tmp/hugo_extended_0.55.5_Linux-64bit.deb && \
+        dpkg -i /tmp/hugo_extended_0.55.5_Linux-64bit.deb
+RUN hugo version
+
 ################################### Add your updates before this line ###################
 USER root
 COPY workspace-list /usr/local/bin/workspace-list
