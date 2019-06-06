@@ -4,7 +4,6 @@ Image for my dev tools
 ## What's inside?
  - Composer
  - travissouth/phpqatools (PHPUnit, Behat, PHPCS, etc.)
- - Drush
  - Laravel Installer
  - NodeJS/NPM
  - Yarn

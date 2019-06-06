@@ -1,4 +1,4 @@
-FROM phusion/baseimage:0.10.1
+FROM phusion/baseimage:0.11
 
 ENV LANGUAGE=en_US.UTF-8
 ENV LC_ALL=en_US.UTF-8
@@ -36,22 +36,22 @@ RUN install_clean -y software-properties-common && \
 # Install "PHP Extentions", "libraries", "Software's"
 RUN install_clean -y --allow-downgrades --allow-remove-essential \
         --allow-change-held-packages \
-        php7.2-cli \
-        php7.2-common \
-        php7.2-curl \
-        php7.2-intl \
-        php7.2-json \
-        php7.2-xml \
-        php7.2-mbstring \
-        php7.2-mysql \
-        php7.2-pgsql \
-        php7.2-sqlite \
-        php7.2-sqlite3 \
-        php7.2-zip \
-        php7.2-bcmath \
-        php7.2-memcached \
-        php7.2-gd \
-        php7.2-dev \
+        php7.3-cli \
+        php7.3-common \
+        php7.3-curl \
+        php7.3-intl \
+        php7.3-json \
+        php7.3-xml \
+        php7.3-mbstring \
+        php7.3-mysql \
+        php7.3-pgsql \
+        php7.3-sqlite \
+        php7.3-sqlite3 \
+        php7.3-zip \
+        php7.3-bcmath \
+        php7.3-memcached \
+        php7.3-gd \
+        php7.3-dev \
         pkg-config \
         libcurl4-openssl-dev \
         libedit-dev \
@@ -79,9 +79,8 @@ RUN install_clean -y --allow-downgrades --allow-remove-essential \
 #####################################
 
 # Install composer and add its bin to the PATH.
-RUN curl -s http://getcomposer.org/installer | php && \
-    echo "export PATH=${PATH}:/var/www/vendor/bin:/usr/local/bin:/home/daker/.composer/vendor/bin" > ~/.bashrc && \
-    mv composer.phar /usr/local/bin/composer && \
+COPY --from=composer:1.8.5 /usr/bin/composer /usr/local/bin/composer
+RUN echo "export PATH=${PATH}:/var/www/vendor/bin:/usr/local/bin:/home/daker/.composer/vendor/bin" > ~/.bashrc && \
     chmod +x /usr/local/bin/composer
 
 # Source the bash
@@ -100,36 +99,27 @@ RUN mkdir -p ~/.composer
 RUN composer global require hirak/prestissimo && composer --version
 
 # Install PHPQATools
-RUN composer global require symfony/config:^3 \
-    symfony/console:^3 \
-    symfony/event-dispatcher:^3 \
-    symfony/finder:^3 \
-    symfony/process:^3 \
-    symfony/var-dumper:^3 \
-    symfony/yaml:^3 \
-    symfony/filesystem:^3 \
-    travis-south/phpqatools:^3.0 \
-    behat/mink-extension \
-    behat/mink-goutte-driver \
-    behat/mink-selenium2-driver \
-    behat/mink-zombie-driver \
-    drupal/coder:^8.2.0 \
-    endouble/symfony3-custom-coding-standard \
-    rregeer/phpunit-coverage-check
+RUN composer global require travis-south/phpqatools:5.0.0 \
+    behat/mink-extension:2.3.1 \
+    behat/mink-goutte-driver:1.2.1 \
+    behat/mink-selenium2-driver:1.3.1 \
+    behat/mink-zombie-driver:1.4.0 \
+    drupal/coder:8.3.4 \
+    rregeer/phpunit-coverage-check:0.1.6
 RUN phpcs --config-set installed_paths \
-    $HOME/.composer/vendor/endouble/symfony3-custom-coding-standard,$HOME/.composer/vendor/drupal/coder/coder_sniffer
+    $HOME/.composer/vendor/drupal/coder/coder_sniffer
 
 # Install Drush
-USER daker
-RUN composer global require drush/drush:^9.0 && drush --version
+#USER daker
+#RUN composer global require drush/drush:9.7.0 && drush --version
 
 # Install Laravel artisan
 USER daker
-RUN composer global require laravel/installer && laravel --version
+RUN composer global require laravel/installer:2.1.0 && laravel --version
 
 # Install NodeJS
 USER root
-RUN curl -sL https://deb.nodesource.com/setup_8.x | bash - && \
+RUN curl -sL https://deb.nodesource.com/setup_10.x | bash - && \
     install_clean nodejs && \
     nodejs --version
 USER daker
@@ -191,7 +181,7 @@ RUN wodby --help
 
 # Install eslint and tslint
 USER daker
-RUN yarn global add babel-eslint eslint typescript tslint
+RUN yarn global add babel-eslint@10.0.1 eslint@5.16.0 typescript@3.5.1 tslint@5.17.0
 
 # Install sonarscanner
 USER root
@@ -200,16 +190,16 @@ RUN install_clean unzip \
     openjdk-8-jre-headless
 RUN java -version
 WORKDIR /
-RUN curl -o sonar-scanner-cli.zip -L https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-3.2.0.1227-linux.zip
+RUN curl -o sonar-scanner-cli.zip -L https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-3.3.0.1492-linux.zip
 RUN unzip sonar-scanner-cli.zip
-RUN mv sonar-scanner-3.2.0.1227-linux sonar-scanner && \
+RUN mv sonar-scanner-3.3.0.1492-linux sonar-scanner && \
     chmod 777 -R /sonar-scanner
 RUN cd /usr/local/bin && ln -s /sonar-scanner/bin/sonar-scanner sonar-scanner
 COPY sonar-scanner.properties /sonar-scanner/conf/sonar-scanner.properties
 RUN rm -rf /sonar-scanner-cli.zip
 WORKDIR /var/www/app
 USER daker
-RUN yarn global add tslint-sonarts
+RUN yarn global add tslint-sonarts@1.9.0
 ENV NODE_PATH /usr/lib/node_modules
 RUN echo "export NODE_PATH=/usr/lib/node_modules" >> ~/.bashrc
 ENV SONAR_USER_HOME /home/daker/.docker-workspace/.sonar
@@ -219,7 +209,7 @@ RUN . ~/.bashrc
 # Install JMeter
 USER root
 ENV JMETER_HOME=/opt/jmeter \
-    JMETER_VERSION=3.3 \
+    JMETER_VERSION=5.1.1 \
     PATH=/opt/jmeter/bin/:$PATH \
     PLUGINS_PATH=/tmp/plugins
 RUN mkdir -p ${JMETER_HOME} \
@@ -228,14 +218,14 @@ RUN mkdir -p ${JMETER_HOME} \
     && mv /tmp/apache-jmeter-${JMETER_VERSION}/* ${JMETER_HOME} \
     && rm -rf /tmp/jmeter.tgz /tmp/apache-jmeter-${JMETER_VERSION} /var/cache/apk/* \
     && mkdir -p $PLUGINS_PATH \
-    && wget https://jmeter-plugins.org/files/packages/jpgc-cmd-2.1.zip \
-    && unzip -o -d $PLUGINS_PATH jpgc-cmd-2.1.zip \
+    && wget https://jmeter-plugins.org/files/packages/jpgc-cmd-2.2.zip \
+    && unzip -o -d $PLUGINS_PATH jpgc-cmd-2.2.zip \
     && cp $PLUGINS_PATH/lib/*.jar $JMETER_HOME/lib/ \
     && cp $PLUGINS_PATH/bin/* $JMETER_HOME/bin/ \
     && cp $PLUGINS_PATH/lib/ext/*.jar $JMETER_HOME/lib/ext/ \
     && rm -rf $PLUGINS_PATH
 RUN /opt/jmeter/bin/jmeter.sh -n -v \
-    && java -cp /opt/jmeter/lib/ext/jmeter-plugins-manager-0.20.jar org.jmeterplugins.repository.PluginManagerCMDInstaller
+    && java -cp /opt/jmeter/lib/ext/jmeter-plugins-manager-1.3.jar org.jmeterplugins.repository.PluginManagerCMDInstaller
 RUN /opt/jmeter/bin/PluginsManagerCMD.sh install jpgc-oauth,jpgc-json,jpgc-casutg,jpgc-graphs-additional,jpgc-synthesis && \
      chmod -R 777 /opt/jmeter
 USER daker
@@ -282,8 +272,8 @@ RUN echo "export KUBECONFIG=/home/daker/.docker-workspace/.kube/config" >> ~/.ba
 # Install Helm
 USER root
 WORKDIR /tmp
-RUN curl -o helm-v2.9.1-linux-amd64.tar.gz -L https://storage.googleapis.com/kubernetes-helm/helm-v2.9.1-linux-amd64.tar.gz && \
-    tar -zxf helm-v2.9.1-linux-amd64.tar.gz && \
+RUN curl -o helm-v2.14.1-linux-amd64.tar.gz -L https://storage.googleapis.com/kubernetes-helm/helm-v2.14.1-linux-amd64.tar.gz && \
+    tar -zxf helm-v2.14.1-linux-amd64.tar.gz && \
     mv linux-amd64/helm /usr/local/bin/ && \
     chmod a+x /usr/local/bin/helm
 USER daker
@@ -298,25 +288,25 @@ RUN apt-get update -y && apt-get upgrade -y && apt-get clean && rm -rf /var/lib/
 
 # Install Polymer CLI
 USER root
-RUN npm install -g polymer-cli --unsafe-perm
+RUN npm install -g polymer-cli@1.9.10 --unsafe-perm
 
 # Install Angular CLI
 USER root
-RUN npm install -g @angular/cli
+RUN npm install -g @angular/cli@8.0.1
 EXPOSE 8001
 
 # Install Karma
 USER root
-RUN npm install -g karma-cli
+RUN npm install -g karma-cli@2.0.0
 
 # Install Lite-server
 USER root
-RUN npm install -g lite-server
+RUN npm install -g lite-server@2.5.3
 
 # Install Golang
 USER root
-RUN wget https://dl.google.com/go/go1.10.3.linux-amd64.tar.gz && \
-    tar -C /usr/local -xzf go1.10.3.linux-amd64.tar.gz
+RUN wget https://dl.google.com/go/go1.12.5.linux-amd64.tar.gz && \
+    tar -C /usr/local -xzf go1.12.5.linux-amd64.tar.gz
 USER daker
 ENV PATH ${PATH}:/usr/local/go/bin:/home/daker/golang/bin
 RUN echo "export PATH=${PATH}:/usr/local/go/bin:/home/daker/golang/bin" >> ~/.bashrc
@@ -335,7 +325,7 @@ RUN add-apt-repository ppa:certbot/certbot && \
 
 # Install Lite-server
 USER root
-RUN npm install -g source-map-explorer
+RUN npm install -g source-map-explorer@2.0.0
 
 # Install Dartlang
 RUN curl https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - && \
@@ -356,11 +346,11 @@ RUN usermod -a -G tty daker
 
 # Install Gatsby-cli
 USER root
-RUN npm install -g gatsby-cli
+RUN npm install -g gatsby-cli@2.6.5
 
 # Install Grunt CLI
 USER root
-RUN npm install -g grunt-cli
+RUN npm install -g grunt-cli@1.3.2
 
 # Install mysql client
 USER root
@@ -368,7 +358,7 @@ RUN install_clean mysql-client
 
 # Install Jest CLI
 USER root
-RUN npm install -g jest
+RUN npm install -g jest@24.8.0
 
 # Install JQ
 USER root
@@ -390,20 +380,20 @@ RUN usermod -aG docker,root daker
 
 # Install docker-compose
 USER root
-RUN curl -L "https://github.com/docker/compose/releases/download/1.23.1/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose && \
+RUN curl -L "https://github.com/docker/compose/releases/download/1.24.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose && \
         chmod +x /usr/local/bin/docker-compose
 
 # Install dig and whois
 USER root
 RUN install_clean whois dnsutils
 
-# Install react-native-cli and create-react-native-app
+# Install react-native-cli, create-react-app and create-react-native-app
 USER root
-RUN npm install -g react-native-cli create-react-native-app
+RUN npm install -g react-native-cli@2.0.1 create-react-native-app@2.0.2 create-react-app@3.0.1
 
 # Install expo-cli
 USER root
-RUN npm install -g expo-cli
+RUN npm install -g expo-cli@2.19.1 --allow-root --unsafe-perm
 
 # Install ruby
 USER root
