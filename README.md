@@ -45,6 +45,7 @@ Image for my dev tools
  - EKS CTL
  - Deno
  - Hugo
+ - Serverless CLI
 
 ## Usage
 

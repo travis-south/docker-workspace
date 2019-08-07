@@ -438,6 +438,14 @@ RUN curl -LSs https://github.com/gohugoio/hugo/releases/download/v0.55.6/hugo_ex
         dpkg -i /tmp/hugo_extended_0.55.6_Linux-64bit.deb
 RUN hugo version
 
+# Install Serverless CLI
+USER root
+RUN npm install -g serverless && sls --version
+
+# Install NestJS CLI
+USER root
+RUN npm install -g @nestjs/cli && nest --help
+
 ################################### Add your updates before this line ###################
 USER root
 COPY workspace-list /usr/local/bin/workspace-list
