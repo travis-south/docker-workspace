@@ -46,6 +46,7 @@ Image for my dev tools
  - Deno
  - Hugo
  - Serverless CLI
+ - Open FaaS CLI
 
 ## Usage
 

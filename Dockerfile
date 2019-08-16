@@ -4,7 +4,7 @@ ENV LANGUAGE=en_US.UTF-8
 ENV LC_ALL=en_US.UTF-8
 ENV LC_CTYPE=en_US.UTF-8
 ENV LANG=en_US.UTF-8
-ENV TERM xterm
+ENV TERM xtermf
 
 # Start as root
 USER root
@@ -238,7 +238,8 @@ RUN jmeter -n -v
 
 # Install Apache bench
 USER root
-RUN install_clean apache2-utils && \
+RUN apt-get clean && \
+    install_clean apache2-utils && \
     ab -V
 
 # Install siege
@@ -445,6 +446,12 @@ RUN npm install -g serverless && sls --version
 # Install NestJS CLI
 USER root
 RUN npm install -g @nestjs/cli && nest --help
+
+# Instal OpenFaaS CLI
+USER root
+RUN curl -sL https://cli.openfaas.com | sudo sh
+USER daker
+RUN faas-cli --help
 
 ################################### Add your updates before this line ###################
 USER root
