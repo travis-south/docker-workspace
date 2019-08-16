@@ -449,7 +449,7 @@ RUN npm install -g @nestjs/cli && nest --help
 
 # Instal OpenFaaS CLI
 USER root
-RUN curl -sL https://cli.openfaas.com | sudo sh
+RUN curl -sL https://cli.openfaas.com | sh
 USER daker
 RUN faas-cli --help
 
