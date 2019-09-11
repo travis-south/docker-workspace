@@ -448,6 +448,8 @@ RUN curl -LSs https://github.com/gohugoio/hugo/releases/download/v0.55.5/hugo_ex
         dpkg -i /tmp/hugo_extended_0.55.5_Linux-64bit.deb
 RUN hugo version
 
+# Install Terraform
+
 ################################### Add your updates before this line ###################
 USER root
 COPY workspace-list /usr/local/bin/workspace-list

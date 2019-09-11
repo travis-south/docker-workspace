@@ -46,6 +46,7 @@ Image for my dev tools
  - EKS CTL
  - Deno
  - Hugo
+ - Terraform
 
 ## Usage
 

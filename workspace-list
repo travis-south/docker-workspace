@@ -76,3 +76,5 @@ printf ${green}"  aws-iam-authenticator\n"
 printf ${green}"  eksctl\n"
 printf ${green}"  deno\n"
 printf ${green}"  hugo\n"
+printf ${green}"  terraform\n"
+
