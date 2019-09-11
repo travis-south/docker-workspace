@@ -77,7 +77,7 @@ if [ ! -d "$HOME/.ssh" ]; then
 fi
 
 if [ "$1" = "update" ]; then
-  docker pull phusion/baseimage:0.10.1
+  docker pull phusion/baseimage:0.11
   bash <(curl https://raw.githubusercontent.com/travis-south/docker-workspace/master/install?no_cache=$RANDOM)
   exit 0
 fi

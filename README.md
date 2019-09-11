@@ -4,7 +4,6 @@ Image for my dev tools
 ## What's inside?
  - Composer
  - travissouth/phpqatools (PHPUnit, Behat, PHPCS, etc.)
- - Drush
  - Laravel Installer
  - NodeJS/NPM
  - Yarn
@@ -46,6 +45,8 @@ Image for my dev tools
  - EKS CTL
  - Deno
  - Hugo
+ - Serverless CLI
+ - Open FaaS CLI
  - Terraform
 
 ## Usage
