@@ -453,6 +453,16 @@ RUN curl -sL https://cli.openfaas.com | sh
 USER daker
 RUN faas-cli --help
 
+# Install terraform
+USER root
+RUN curl -LSs https://releases.hashicorp.com/terraform/0.12.8/terraform_0.12.8_linux_amd64.zip \
+        -o /tmp/terraform_0.12.8_linux_amd64.zip
+RUN unzip /tmp/terraform_0.12.8_linux_amd64.zip && ls -alh
+RUN pwd && ls -alh && mv terraform /usr/bin/
+RUN chmod +x /usr/bin/terraform
+USER daker
+RUN terraform -help
+
 ################################### Add your updates before this line ###################
 USER root
 COPY workspace-list /usr/local/bin/workspace-list

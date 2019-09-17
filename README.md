@@ -47,6 +47,7 @@ Image for my dev tools
  - Hugo
  - Serverless CLI
  - Open FaaS CLI
+ - Terraform
 
 ## Usage
 
