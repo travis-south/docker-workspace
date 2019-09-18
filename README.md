@@ -48,6 +48,7 @@ Image for my dev tools
  - Serverless CLI
  - Open FaaS CLI
  - Terraform
+ - Blackfire CLI
 
 ## Usage
 

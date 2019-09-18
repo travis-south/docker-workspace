@@ -463,6 +463,13 @@ RUN chmod +x /usr/bin/terraform
 USER daker
 RUN terraform -help
 
+# Install blackfire
+USER root
+RUN apt-get update -y && apt-get upgrade -y --allow-unauthenticated
+RUN curl -LSs https://packages.blackfire.io/binaries/blackfire-agent/1.27.4/blackfire-cli-linux_amd64 \
+    -o /usr/local/bin/blackfire && \
+    chmod +x /usr/local/bin/blackfire
+
 ################################### Add your updates before this line ###################
 USER root
 COPY workspace-list /usr/local/bin/workspace-list
