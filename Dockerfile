@@ -463,6 +463,10 @@ RUN chmod +x /usr/bin/terraform
 USER daker
 RUN terraform -help
 
+# Install PHP XDebug
+USER root
+RUN install_clean php7.3-xdebug
+
 ################################### Add your updates before this line ###################
 USER root
 COPY workspace-list /usr/local/bin/workspace-list
