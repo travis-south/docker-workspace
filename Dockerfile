@@ -474,6 +474,10 @@ RUN curl -LSs https://packages.blackfire.io/binaries/blackfire-agent/1.27.4/blac
 USER root
 RUN install_clean php7.3-xdebug
 
+# Install envsubst
+USER root
+RUN install_clean gettext-base
+
 ################################### Add your updates before this line ###################
 USER root
 COPY workspace-list /usr/local/bin/workspace-list
