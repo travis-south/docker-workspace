@@ -478,6 +478,10 @@ RUN install_clean php7.3-xdebug
 USER root
 RUN install_clean gettext-base
 
+# Install traceroute
+USER root
+RUN install_clean traceroute tcptraceroute
+
 ################################### Add your updates before this line ###################
 USER root
 COPY workspace-list /usr/local/bin/workspace-list
