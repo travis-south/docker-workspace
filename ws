@@ -97,7 +97,7 @@ if [ "${COM}" = "b" ] || [ "${COM}" = "bb" ]; then
   sed "s/native-osx/native-osx-${PROJECT_NAME}/g" docker-sync.yml > .docker-sync-${PROJECT_NAME}.yml
   sed "s/native-osx/native-osx-${PROJECT_NAME}/g" docker-compose.yml > .docker-compose-${PROJECT_NAME}.yml
   sed "s/native-osx/native-osx-${PROJECT_NAME}/g" docker-compose-dev.yml > .docker-compose-dev-${PROJECT_NAME}.yml
-  docker-sync start -c .docker-sync-${PROJECT_NAME}.yml &
+  docker-sync start -c .docker-sync-${PROJECT_NAME}.yml
   printf "Waiting for volume..."
   until docker volume ls | grep appcode-native-osx-${PROJECT_NAME}-sync
   do
