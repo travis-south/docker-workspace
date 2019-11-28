@@ -49,6 +49,7 @@ Image for my dev tools
  - Open FaaS CLI
  - Terraform
  - Blackfire CLI
+ - Symfony CLI
 
 ## Usage
 

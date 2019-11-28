@@ -482,6 +482,14 @@ RUN install_clean gettext-base
 USER root
 RUN install_clean traceroute tcptraceroute
 
+# Install Symfony installer
+USER daker
+RUN curl -sS https://get.symfony.com/cli/installer | bash
+RUN chmod -R 777 /home/daker/.symfony/bin/*
+ENV PATH ${PATH}:/home/daker/.symfony/bin
+RUN echo "export PATH=${PATH}:/home/daker/.symfony/bin" >> ~/.bashrc
+
+
 ################################### Add your updates before this line ###################
 USER root
 COPY workspace-list /usr/local/bin/workspace-list
