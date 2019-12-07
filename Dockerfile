@@ -464,25 +464,25 @@ RUN curl -LSs https://packages.blackfire.io/binaries/blackfire-agent/1.27.4/blac
     -o /usr/local/bin/blackfire && \
     chmod +x /usr/local/bin/blackfire
 
-# Install PHP XDebug
+# Install PHP XDebug, envsubst, traceroute
 USER root
-RUN install_clean php7.3-xdebug
-
-# Install envsubst
-USER root
-RUN install_clean gettext-base
-
-# Install traceroute
-USER root
-RUN install_clean traceroute tcptraceroute
+RUN install_clean php7.3-xdebug gettext-base traceroute tcptraceroute
 
 # Install Symfony installer
 USER daker
-RUN curl -sS https://get.symfony.com/cli/installer | bash
-RUN chmod -R 777 /home/daker/.symfony/bin/*
+RUN curl -sS https://get.symfony.com/cli/installer | bash && \
+    chmod -R 777 /home/daker/.symfony/bin/*
 ENV PATH ${PATH}:/home/daker/.symfony/bin
 RUN echo "export PATH=${PATH}:/home/daker/.symfony/bin" >> ~/.bashrc
 
+# Set timezone to Asia/Manila
+USER root
+ENV TZ 'Asia/Manila'
+RUN install_clean tzdata && \
+    echo "Asia/Manila" | tee /etc/timezone && \
+    rm /etc/localtime && \
+    ln -snf /usr/share/zoneinfo/Asia/Manila /etc/localtime && \
+    dpkg-reconfigure -f noninteractive tzdata
 
 ################################### Add your updates before this line ###################
 # Add custom script
