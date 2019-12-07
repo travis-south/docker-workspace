@@ -406,16 +406,10 @@ RUN echo "source /usr/share/rvm/scripts/rvm" >> ~/.bashrc
 RUN echo "export PATH=${PATH}:/usr/share/rvm/rubies/ruby-2.6.0/bin" >> ~/.bashrc
 ENV PATH ${PATH}:/usr/share/rvm/rubies/ruby-2.6.0/bin
 
-# Add custom script
-USER daker
-ADD custom-scripts /custom-scripts
-RUN echo "export PATH=${PATH}:/custom-scripts" >> ~/.bashrc
-ENV PATH ${PATH}:/custom-scripts
-
 # Add AWS IAM auth
 USER root
-RUN curl -o /custom-scripts/aws-iam-authenticator https://amazon-eks.s3-us-west-2.amazonaws.com/1.12.7/2019-03-27/bin/linux/amd64/aws-iam-authenticator && \
-        chmod +x /custom-scripts/aws-iam-authenticator && \
+RUN curl -o /usr/local/bin/aws-iam-authenticator https://amazon-eks.s3-us-west-2.amazonaws.com/1.12.7/2019-03-27/bin/linux/amd64/aws-iam-authenticator && \
+        chmod +x /usr/local/bin/aws-iam-authenticator && \
         aws-iam-authenticator help
 
 # Install eksctl
@@ -491,6 +485,12 @@ RUN echo "export PATH=${PATH}:/home/daker/.symfony/bin" >> ~/.bashrc
 
 
 ################################### Add your updates before this line ###################
+# Add custom script
+USER daker
+ADD custom-scripts /custom-scripts
+RUN echo "export PATH=${PATH}:/custom-scripts" >> ~/.bashrc
+ENV PATH ${PATH}:/custom-scripts
+
 USER root
 COPY workspace-list /usr/local/bin/workspace-list
 RUN chmod +x /usr/local/bin/workspace-list
