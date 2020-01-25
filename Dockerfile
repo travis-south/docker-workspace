@@ -484,6 +484,11 @@ RUN install_clean tzdata && \
     ln -snf /usr/share/zoneinfo/Asia/Manila /etc/localtime && \
     dpkg-reconfigure -f noninteractive tzdata
 
+# Install gollum
+USER root
+RUN gem install gollum github-markdown
+
+
 ################################### Add your updates before this line ###################
 # Add custom script
 USER daker

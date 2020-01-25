@@ -50,6 +50,7 @@ Image for my dev tools
  - Terraform
  - Blackfire CLI
  - Symfony CLI
+ - Gollum
 
 ## Usage
 
