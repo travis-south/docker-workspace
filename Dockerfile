@@ -4,7 +4,7 @@ ENV LANGUAGE=en_US.UTF-8
 ENV LC_ALL=en_US.UTF-8
 ENV LC_CTYPE=en_US.UTF-8
 ENV LANG=en_US.UTF-8
-ENV TERM xtermf
+ENV TERM xterm
 
 # Start as root
 USER root
