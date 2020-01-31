@@ -36,22 +36,22 @@ RUN install_clean -y software-properties-common && \
 # Install "PHP Extentions", "libraries", "Software's"
 RUN install_clean -y --allow-downgrades --allow-remove-essential \
         --allow-change-held-packages \
-        php7.3-cli \
-        php7.3-common \
-        php7.3-curl \
-        php7.3-intl \
-        php7.3-json \
-        php7.3-xml \
-        php7.3-mbstring \
-        php7.3-mysql \
-        php7.3-pgsql \
-        php7.3-sqlite \
-        php7.3-sqlite3 \
-        php7.3-zip \
-        php7.3-bcmath \
-        php7.3-memcached \
-        php7.3-gd \
-        php7.3-dev \
+        php7.4-cli \
+        php7.4-common \
+        php7.4-curl \
+        php7.4-intl \
+        php7.4-json \
+        php7.4-xml \
+        php7.4-mbstring \
+        php7.4-mysql \
+        php7.4-pgsql \
+        php7.4-sqlite \
+        php7.4-sqlite3 \
+        php7.4-zip \
+        php7.4-bcmath \
+        php7.4-memcached \
+        php7.4-gd \
+        php7.4-dev \
         pkg-config \
         libcurl4-openssl-dev \
         libedit-dev \
@@ -79,7 +79,7 @@ RUN install_clean -y --allow-downgrades --allow-remove-essential \
 #####################################
 
 # Install composer and add its bin to the PATH.
-COPY --from=composer:1.8.5 /usr/bin/composer /usr/local/bin/composer
+COPY --from=composer:1.9.2 /usr/bin/composer /usr/local/bin/composer
 RUN echo "export PATH=${PATH}:/var/www/vendor/bin:/usr/local/bin:/home/daker/.composer/vendor/bin" > ~/.bashrc && \
     chmod +x /usr/local/bin/composer
 
@@ -98,16 +98,17 @@ ENV COMPOSER_CACHE_DIR /home/daker/.docker-workspace/.composer/cache
 RUN mkdir -p ~/.composer
 RUN composer global require hirak/prestissimo && composer --version
 
-# Install PHPQATools
-RUN composer global require travis-south/phpqatools:5.0.0 \
-    behat/mink-extension:2.3.1 \
-    behat/mink-goutte-driver:1.2.1 \
-    behat/mink-selenium2-driver:1.3.1 \
-    behat/mink-zombie-driver:1.4.0 \
-    drupal/coder:8.3.4 \
-    rregeer/phpunit-coverage-check:0.1.6
-RUN phpcs --config-set installed_paths \
-    $HOME/.composer/vendor/drupal/coder/coder_sniffer
+# # Install PHPQATools
+# RUN composer global require symfony/process:4.4.3 \
+#     travis-south/phpqatools:5.0.0 \
+#     behat/mink-extension:2.3.1 \
+#     behat/mink-goutte-driver:1.2.1 \
+#     behat/mink-selenium2-driver:1.3.1 \
+#     behat/mink-zombie-driver:1.4.0 \
+#     drupal/coder:8.3.4 \
+#     rregeer/phpunit-coverage-check:0.1.6
+# RUN phpcs --config-set installed_paths \
+#     $HOME/.composer/vendor/drupal/coder/coder_sniffer
 
 # Install Drush
 #USER daker
@@ -115,11 +116,11 @@ RUN phpcs --config-set installed_paths \
 
 # Install Laravel artisan
 USER daker
-RUN composer global require laravel/installer:2.1.0 && laravel --version
+RUN composer global require laravel/installer:3.0.1 && laravel --version
 
 # Install NodeJS
 USER root
-RUN curl -sL https://deb.nodesource.com/setup_10.x | bash - && \
+RUN curl -sL https://deb.nodesource.com/setup_12.x | bash - && \
     install_clean nodejs && \
     nodejs --version
 USER daker
@@ -466,7 +467,7 @@ RUN curl -LSs https://packages.blackfire.io/binaries/blackfire-agent/1.27.4/blac
 
 # Install PHP XDebug, envsubst, traceroute
 USER root
-RUN install_clean php7.3-xdebug gettext-base traceroute tcptraceroute
+RUN install_clean php7.4-xdebug gettext-base traceroute tcptraceroute
 
 # Install Symfony installer
 USER daker
