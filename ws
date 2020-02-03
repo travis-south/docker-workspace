@@ -19,11 +19,12 @@ fi
 if [ "${COM}" = "b" ]; then
   PORTS="8001"
   export PORTS="8001"
-fi
-
-if [ "${COM}" = "bb" ]; then
+elif [ "${COM}" = "bb" ]; then
   PORTS="8002-8010"
   export PORTS="8002-8010"
+else
+  PORTS=${COM}
+  export PORTS="${COM}"
 fi
 
 VOLUME_OPTIONS=""
