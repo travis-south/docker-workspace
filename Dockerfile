@@ -295,7 +295,6 @@ RUN npm install -g polymer-cli@1.9.10 --unsafe-perm
 # Install Angular CLI
 USER root
 RUN npm install -g @angular/cli@8.0.1
-EXPOSE 8001
 
 # Install Karma
 USER root
