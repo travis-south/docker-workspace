@@ -8,6 +8,8 @@ COM=$@
 PORTS=${PORTS:-"8002-8010"}
 PROJECT_NAME=$(date -j -f "%a %b %d %T %Z %Y" "`date`" "+%s")
 export PORTS=${PORTS:-"8002-8010"}
+CONTAINER_PORTS=${PORTS}
+export CONTAINER_PORTS=${PORTS}
 FOLDER_NAME=${PWD##*/}
 export FOLDER_NAME=${PWD##*/}
 if [ "${INTERACTIVE}" = "yes" ]; then
@@ -16,9 +18,11 @@ else
   INTERACTIVE=""
 fi
 
-if [ "${COM}" = "b" ]; then
-  PORTS="8001"
-  export PORTS="8001"
+if [ "${COM}" != "b" ]; then
+  PORTS="8002-8010"
+  export PORTS="8002-8010"
+  CONTAINER_PORTS="8001"
+  export CONTAINER_PORTS="8001"
 fi
 
 VOLUME_OPTIONS=""
