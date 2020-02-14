@@ -12,8 +12,8 @@ services:
     entrypoint: ["/sbin/my_init", "--"]
     command: []
     volumes:
-      - ${HOME}/.ssh:/home/daker/.ssh
-      - ${HOME}/.bash_profile:/home/daker/.bash_profile
-      - ${HOME}/.gitconfig:/home/daker/.gitconfig
-      - /var/run/docker.sock:/var/run/docker.sock
+      - ${HOME}/.ssh:/home/daker/.ssh:delegated
+      - ${HOME}/.bash_profile:/home/daker/.bash_profile:delegated
+      - ${HOME}/.gitconfig:/home/daker/.gitconfig:delegated
+      - /var/run/docker.sock:/var/run/docker.sock:delegated
     working_dir: /home/daker/${FOLDER_NAME}
