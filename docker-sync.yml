@@ -6,6 +6,3 @@ syncs:
   appcode-native-osx-sync: # tip: add -sync and you keep consistent names as a convention
     src: ${WS_CWD}
     sync_userid: ${PUID}
-  appcode-native-osx-docker-workspace-sync:
-    src: ${HOME}/.docker-workspace
-    sync_userid: ${PUID}

@@ -3,11 +3,8 @@ services:
   app-native-osx:
     volumes:
       - appcode-native-osx-sync:/home/daker/${FOLDER_NAME}:nocopy # nocopy is important
-      - appcode-native-osx-docker-workspace-sync:/home/daker/.docker-workspace:nocopy
 
 # that the important thing
 volumes:
   appcode-native-osx-sync:
-    external: true
-  appcode-native-osx-docker-workspace-sync:
     external: true
