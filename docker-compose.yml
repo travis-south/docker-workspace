@@ -13,9 +13,7 @@ services:
     command: []
     volumes:
       - ${HOME}/.ssh:/home/daker/.ssh
-      - ${HOME}/.docker-workspace:/home/daker/.docker-workspace
       - ${HOME}/.bash_profile:/home/daker/.bash_profile
       - ${HOME}/.gitconfig:/home/daker/.gitconfig
       - /var/run/docker.sock:/var/run/docker.sock
     working_dir: /home/daker/${FOLDER_NAME}
-
