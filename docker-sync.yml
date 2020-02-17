@@ -6,4 +6,4 @@ syncs:
   appcode-native-osx-sync: # tip: add -sync and you keep consistent names as a convention
     src: ${WS_CWD}
     sync_userid: ${PUID}
-    sync_excludes: [ '.git', '.idea', 'node_modules', '.yarn-cache', 'vendor']
+    sync_excludes: [ '.idea', 'node_modules', '.yarn-cache', 'vendor', '.node-cache', '.composer-cache']
