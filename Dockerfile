@@ -450,17 +450,15 @@ RUN faas-cli --help
 # Install terraform
 USER root
 RUN curl -LSs https://releases.hashicorp.com/terraform/0.12.8/terraform_0.12.8_linux_amd64.zip \
-        -o /tmp/terraform_0.12.8_linux_amd64.zip
-RUN unzip /tmp/terraform_0.12.8_linux_amd64.zip && ls -alh
-RUN pwd && ls -alh && mv terraform /usr/bin/
-RUN chmod +x /usr/bin/terraform
-USER daker
-RUN terraform -help
+    -o /tmp/terraform_0.12.8_linux_amd64.zip && \
+    unzip /tmp/terraform_0.12.8_linux_amd64.zip && ls -alh && \
+    pwd && ls -alh && mv terraform /usr/bin/ && \
+    chmod +x /usr/bin/terraform
 
 # Install blackfire
 USER root
-RUN apt-get update -y && apt-get upgrade -y --allow-unauthenticated
-RUN curl -LSs https://packages.blackfire.io/binaries/blackfire-agent/1.27.4/blackfire-cli-linux_amd64 \
+RUN apt-get update -y && apt-get upgrade -y --allow-unauthenticated && \
+    curl -LSs https://packages.blackfire.io/binaries/blackfire-agent/1.27.4/blackfire-cli-linux_amd64 \
     -o /usr/local/bin/blackfire && \
     chmod +x /usr/local/bin/blackfire
 
@@ -471,9 +469,9 @@ RUN install_clean php7.4-xdebug gettext-base traceroute tcptraceroute
 # Install Symfony installer
 USER daker
 RUN curl -sS https://get.symfony.com/cli/installer | bash && \
-    chmod -R 777 /home/daker/.symfony/bin/*
+    chmod -R 777 /home/daker/.symfony/bin/* && \
+    echo "export PATH=${PATH}:/home/daker/.symfony/bin" >> ~/.bashrc
 ENV PATH ${PATH}:/home/daker/.symfony/bin
-RUN echo "export PATH=${PATH}:/home/daker/.symfony/bin" >> ~/.bashrc
 
 # Set timezone to Asia/Manila
 USER root
@@ -501,9 +499,11 @@ RUN install_clean gconf-service \
     fonts-liberation libappindicator1 libnss3 lsb-release \
     xdg-utils wget
 
-# Install sshuttle
+# Install sshuttle and sudo
 USER root
-RUN install_clean sshuttle
+RUN install_clean sshuttle sudo && \
+    echo "daker	ALL=(ALL)	NOPASSWD:ALL" > /etc/sudoers.d/daker
+
 
 ################################### Add your updates before this line ###################
 # Add custom script
