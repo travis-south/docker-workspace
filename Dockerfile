@@ -501,6 +501,9 @@ RUN install_clean gconf-service \
     fonts-liberation libappindicator1 libnss3 lsb-release \
     xdg-utils wget
 
+# Install sshuttle
+USER root
+RUN install_clean sshuttle
 
 ################################### Add your updates before this line ###################
 # Add custom script
