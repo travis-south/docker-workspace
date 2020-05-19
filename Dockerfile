@@ -476,7 +476,7 @@ ENV PATH ${PATH}:/home/daker/.symfony/bin
 # Set timezone to Asia/Manila
 USER root
 ENV TZ 'Asia/Manila'
-RUN install_clean tzdata && \
+RUN install_clean tzdata cmake && \
     echo "Asia/Manila" | tee /etc/timezone && \
     rm /etc/localtime && \
     ln -snf /usr/share/zoneinfo/Asia/Manila /etc/localtime && \
