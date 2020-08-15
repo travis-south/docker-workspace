@@ -41,6 +41,8 @@ PORTS="8002-8010"
 CONTAINER_PORTS="8001"
 FOLDER_NAME=${PWD##*/}
 
+printenv 
+
 docker-compose build
 docker-compose down
 ws
