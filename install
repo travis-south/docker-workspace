@@ -29,6 +29,12 @@ git clone --depth 1 git@gitlab.com:travis-south/custom-scripts.git
 rm -rf custom-scripts/.git
 
 
+export PGID=$(id -g)
+export PUID=$(id -u)
+export PORTS="8002-8010"
+export CONTAINER_PORTS="8001"
+export FOLDER_NAME=${PWD##*/}
+
 PGID=$(id -g)
 PUID=$(id -u)
 PORTS="8002-8010"
