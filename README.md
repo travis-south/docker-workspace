@@ -63,7 +63,7 @@ Image for my dev tools
 ### Installation
 
 ```shell
-bash <(curl https://raw.githubusercontent.com/travis-south/docker-workspace/master/install?no_cache=$RANDOM)
+bash -c "$(curl https://raw.githubusercontent.com/travis-south/docker-workspace/master/install?no_cache=$RANDOM)"
 ```
 
 ### To run composer
