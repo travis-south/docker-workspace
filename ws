@@ -105,7 +105,7 @@ if [ "${COM}" = "b" ] || [ "${COM}" = "bb" ]; then
   done
   docker-compose -f .docker-compose-${PROJECT_NAME}.yml -f .docker-compose-dev-${PROJECT_NAME}.yml up -d
   printf "Processing..."
-  until docker-compose -f .docker-compose-${PROJECT_NAME}.yml -f .docker-compose-dev-${PROJECT_NAME}.yml exec app-native-osx-${PROJECT_NAME} /sbin/setuser daker bash -l 2>/dev/null
+  until docker-compose -f .docker-compose-${PROJECT_NAME}.yml -f .docker-compose-dev-${PROJECT_NAME}.yml exec app-native-osx-${PROJECT_NAME} /sbin/setuser daker zsh -l 2>/dev/null
   do
     printf "."
     sleep 5
@@ -119,7 +119,8 @@ else
   docker run --rm -t${INTERACTIVE} \
     -v $HOME/.ssh:/home/daker/.ssh \
     -v $HOME/.docker-workspace:/home/daker/.docker-workspace \
-    -v $HOME/.bash_profile:/home/daker/.bash_profile \
+    -v $HOME/.oh-my-zsh:/home/daker/.oh-my-zsh \
+    -v $HOME/.zshrc:/home/daker/.zshrc \
     -v $HOME/.gitconfig:/home/daker/.gitconfig \
     -v $(pwd):$(pwd)${VOLUME_OPTIONS} \
     -w $(pwd) \

@@ -504,6 +504,10 @@ USER root
 RUN install_clean sshuttle sudo && \
     echo "daker	ALL=(ALL)	NOPASSWD:ALL" > /etc/sudoers.d/daker
 
+# Install zsh, ohmyzsh
+USER root
+RUN install_clean zsh powerline fonts-powerline
+
 
 ################################### Add your updates before this line ###################
 # Add custom script
