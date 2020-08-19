@@ -508,6 +508,14 @@ RUN install_clean sshuttle sudo && \
 USER root
 RUN install_clean zsh powerline fonts-powerline
 
+# Install keybase
+USER root
+RUN install_clean fuse lsof && \
+    curl --remote-name https://prerelease.keybase.io/keybase_amd64.deb && \
+    apt install ./keybase_amd64.deb
+USER daker
+RUN run_keybase
+
 
 ################################### Add your updates before this line ###################
 # Add custom script
