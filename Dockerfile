@@ -447,24 +447,24 @@ RUN curl -sL https://cli.openfaas.com | sh
 USER daker
 RUN faas-cli --help
 
-# Install terraform
+# Install blackfire, PHP XDebug, envsubst, traceroute, terraform, Set timezone to Asia/Manila
 USER root
-RUN curl -LSs https://releases.hashicorp.com/terraform/0.12.8/terraform_0.12.8_linux_amd64.zip \
-    -o /tmp/terraform_0.12.8_linux_amd64.zip && \
-    unzip /tmp/terraform_0.12.8_linux_amd64.zip && ls -alh && \
-    pwd && ls -alh && mv terraform /usr/bin/ && \
-    chmod +x /usr/bin/terraform
-
-# Install blackfire
-USER root
+ENV TZ 'Asia/Manila'
 RUN apt-get update -y && apt-get upgrade -y --allow-unauthenticated && \
     curl -LSs https://packages.blackfire.io/binaries/blackfire-agent/1.27.4/blackfire-cli-linux_amd64 \
     -o /usr/local/bin/blackfire && \
-    chmod +x /usr/local/bin/blackfire
-
-# Install PHP XDebug, envsubst, traceroute
-USER root
-RUN install_clean php7.4-xdebug gettext-base traceroute tcptraceroute
+    chmod +x /usr/local/bin/blackfire && \
+    install_clean php7.4-xdebug gettext-base traceroute tcptraceroute && \
+    curl -LSs https://releases.hashicorp.com/terraform/0.12.8/terraform_0.12.8_linux_amd64.zip \
+    -o /tmp/terraform_0.12.8_linux_amd64.zip && \
+    unzip /tmp/terraform_0.12.8_linux_amd64.zip && ls -alh && \
+    pwd && ls -alh && mv terraform /usr/bin/ && \
+    chmod +x /usr/bin/terraform && \
+    install_clean tzdata cmake && \
+    echo "Asia/Manila" | tee /etc/timezone && \
+    rm /etc/localtime && \
+    ln -snf /usr/share/zoneinfo/Asia/Manila /etc/localtime && \
+    dpkg-reconfigure -f noninteractive tzdata
 
 # Install Symfony installer
 USER daker
@@ -473,20 +473,7 @@ RUN curl -sS https://get.symfony.com/cli/installer | bash && \
     echo "export PATH=${PATH}:/home/daker/.symfony/bin" >> ~/.bashrc
 ENV PATH ${PATH}:/home/daker/.symfony/bin
 
-# Set timezone to Asia/Manila
-USER root
-ENV TZ 'Asia/Manila'
-RUN install_clean tzdata cmake && \
-    echo "Asia/Manila" | tee /etc/timezone && \
-    rm /etc/localtime && \
-    ln -snf /usr/share/zoneinfo/Asia/Manila /etc/localtime && \
-    dpkg-reconfigure -f noninteractive tzdata
-
-# Install gollum
-USER root
-RUN gem install gollum github-markdown
-
-# Install chromium for headless testing
+# Install chromium for headless testing, sshuttle, sudo, gollum, zsh, ohmyzsh, keybase, boundary
 USER root
 RUN install_clean gconf-service \
     libasound2 libatk1.0-0 libatk-bridge2.0-0 libc6 \
@@ -497,30 +484,17 @@ RUN install_clean gconf-service \
     libxcursor1 libxdamage1 libxext6 libxfixes3 libxi6 \
     libxrandr2 libxrender1 libxss1 libxtst6 ca-certificates \
     fonts-liberation libappindicator1 libnss3 lsb-release \
-    xdg-utils wget
-
-# Install sshuttle and sudo
-USER root
-RUN install_clean sshuttle sudo && \
-    echo "daker	ALL=(ALL)	NOPASSWD:ALL" > /etc/sudoers.d/daker
-
-# Install zsh, ohmyzsh
-USER root
-RUN install_clean zsh powerline fonts-powerline
-
-# Install keybase
-USER root
-RUN install_clean fuse lsof && \
+    xdg-utils wget sshuttle sudo && \
+    echo "daker	ALL=(ALL)	NOPASSWD:ALL" > /etc/sudoers.d/daker && \
+    gem install gollum github-markdown && \
+    install_clean zsh powerline fonts-powerline fuse lsof && \
     curl --remote-name https://prerelease.keybase.io/keybase_amd64.deb && \
-    apt install ./keybase_amd64.deb
-USER daker
-RUN run_keybase
-
-# Install boundary
-USER  root
-RUN curl -fsSL https://apt.releases.hashicorp.com/gpg | apt-key add - && \
+    apt install ./keybase_amd64.deb && \
+    curl -fsSL https://apt.releases.hashicorp.com/gpg | apt-key add - && \
     apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main" && \
     install_clean boundary
+USER daker
+RUN run_keybase
 
 
 
@@ -536,11 +510,8 @@ COPY workspace-list /usr/local/bin/workspace-list
 RUN chmod +x /usr/local/bin/workspace-list
 CMD ["/usr/local/bin/workspace-list"]
 
-# Update entrypoint
+# Update entrypoint and clean up APT when done.
 USER root
 COPY entrypoint.sh /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
-
-# Clean up APT when done.
-USER root
 RUN apt-get update -y && apt-get upgrade -y --allow-unauthenticated && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
