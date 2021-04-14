@@ -419,33 +419,20 @@ RUN curl --silent --location "https://github.com/weaveworks/eksctl/releases/down
         chmod +x /usr/local/bin/eksctl && \
         eksctl
 
-# Install deno
-USER daker
-RUN curl -fsSL https://deno.land/x/install/install.sh | sh
-RUN echo "export PATH=${PATH}:/home/daker/.deno/bin" >> ~/.bashrc
-ENV PATH PATH=${PATH}:/home/daker/.deno/bin
-RUN deno -h
-
-# Install Hugo
+# Install Serverless CLI, NestJS CLI, OpenFaaS CLI, Hugo, deno
 USER root
-RUN curl -LSs https://github.com/gohugoio/hugo/releases/download/v0.55.6/hugo_extended_0.55.6_Linux-64bit.deb \
+RUN npm install -g serverless && sls --version && \
+    npm install -g @nestjs/cli && nest --help && \
+    curl -sL https://cli.openfaas.com | sh && \
+    curl -LSs https://github.com/gohugoio/hugo/releases/download/v0.55.6/hugo_extended_0.55.6_Linux-64bit.deb \
         -o /tmp/hugo_extended_0.55.6_Linux-64bit.deb && \
-        dpkg -i /tmp/hugo_extended_0.55.6_Linux-64bit.deb
-RUN hugo version
-
-# Install Serverless CLI
-USER root
-RUN npm install -g serverless && sls --version
-
-# Install NestJS CLI
-USER root
-RUN npm install -g @nestjs/cli && nest --help
-
-# Instal OpenFaaS CLI
-USER root
-RUN curl -sL https://cli.openfaas.com | sh
+        dpkg -i /tmp/hugo_extended_0.55.6_Linux-64bit.deb && \
+        hugo version
 USER daker
-RUN faas-cli --help
+RUN faas-cli --help && \
+    curl -fsSL https://deno.land/x/install/install.sh | sh && \
+    echo "export PATH=${PATH}:/home/daker/.deno/bin" >> ~/.bashrc
+ENV PATH PATH=${PATH}:/home/daker/.deno/bin
 
 # Install blackfire, PHP XDebug, envsubst, traceroute, terraform, Set timezone to Asia/Manila
 USER root
